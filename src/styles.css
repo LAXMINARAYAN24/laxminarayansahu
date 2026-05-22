@@ -4,20 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -61,8 +47,50 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* LIGHT THEME (default) */
 :root {
   --radius: 0.75rem;
+  --background: oklch(0.985 0.004 250);
+  --foreground: oklch(0.2 0.025 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.025 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.025 260);
+  --primary: oklch(0.58 0.16 195);
+  --primary-foreground: oklch(0.99 0.005 250);
+  --secondary: oklch(0.95 0.012 250);
+  --secondary-foreground: oklch(0.25 0.025 260);
+  --muted: oklch(0.95 0.012 250);
+  --muted-foreground: oklch(0.48 0.02 260);
+  --accent: oklch(0.6 0.2 320);
+  --accent-foreground: oklch(0.99 0.005 250);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.99 0.005 250);
+  --border: oklch(0.9 0.012 255);
+  --input: oklch(0.9 0.012 255);
+  --ring: oklch(0.58 0.16 195);
+  --chart-1: oklch(0.58 0.16 195);
+  --chart-2: oklch(0.6 0.2 320);
+  --chart-3: oklch(0.65 0.18 50);
+  --chart-4: oklch(0.6 0.15 240);
+  --chart-5: oklch(0.7 0.16 140);
+  --sidebar: oklch(0.98 0.005 250);
+  --sidebar-foreground: oklch(0.2 0.025 260);
+  --sidebar-primary: oklch(0.58 0.16 195);
+  --sidebar-primary-foreground: oklch(0.99 0.005 250);
+  --sidebar-accent: oklch(0.95 0.012 250);
+  --sidebar-accent-foreground: oklch(0.25 0.025 260);
+  --sidebar-border: oklch(0.9 0.012 255);
+  --sidebar-ring: oklch(0.58 0.16 195);
+
+  --gradient-primary: linear-gradient(135deg, oklch(0.58 0.16 195), oklch(0.6 0.2 320));
+  --gradient-glow: radial-gradient(ellipse at top, oklch(0.58 0.16 195 / 0.12), transparent 60%);
+  --shadow-glow: 0 10px 60px -10px oklch(0.58 0.16 195 / 0.35);
+  --shadow-card: 0 8px 30px -16px oklch(0.2 0.05 260 / 0.18);
+}
+
+/* DARK THEME */
+.dark {
   --background: oklch(0.16 0.02 260);
   --foreground: oklch(0.97 0.01 250);
   --card: oklch(0.21 0.025 260);
@@ -102,48 +130,34 @@
   --shadow-card: 0 8px 30px -12px oklch(0 0 0 / 0.5);
 }
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-}
-
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+/* Reveal-on-scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Magnetic card tilt base */
+.tilt-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.2s ease;
 }
