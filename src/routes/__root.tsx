@@ -72,14 +72,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Laxminarayan" },
+      { name: "description", content: "An intelligent mobile app that automatically detects and blocks ads, learning to handle new ad formats efficiently." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Laxminarayan" },
+      { property: "og:description", content: "An intelligent mobile app that automatically detects and blocks ads, learning to handle new ad formats efficiently." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Laxminarayan" },
+      { name: "twitter:description", content: "An intelligent mobile app that automatically detects and blocks ads, learning to handle new ad formats efficiently." },
     ],
     links: [
       {
