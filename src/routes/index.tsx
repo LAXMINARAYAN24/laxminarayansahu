@@ -209,7 +209,7 @@ function Portfolio() {
             { k: "4+", v: "Projects shipped" },
             { k: "5427", v: "JEE Main AIR" },
             { k: "10+", v: "Technologies" },
-            { k: "2026", v: "Graduating" },
+            { k: "2027", v: "Graduating" },
           ].map((s) => (
             <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
               <div className="text-2xl font-semibold tracking-tight" style={{ backgroundImage: "var(--gradient-primary)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
