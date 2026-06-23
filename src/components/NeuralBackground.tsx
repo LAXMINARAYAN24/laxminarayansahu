@@ -34,36 +34,72 @@ export function NeuralBackground() {
       return v || "oklch(0.6 0.16 200)";
     };
 
+    // Keep node positions in normalized [0,1] space so they stay centered
+    // and proportionally placed across any viewport size.
+    type Node = { nx: number; ny: number; x: number; y: number; vx: number; vy: number; r: number };
+    type Pulse = { a: number; b: number; t: number; speed: number };
+
+    let nodes: Node[] = [];
+    let pulses: Pulse[] = [];
+
+    const buildNodes = () => {
+      // density tuned to viewport area, clamped for perf
+      const target = Math.floor((width * height) / 16000);
+      const count = Math.max(36, Math.min(120, target));
+      nodes = Array.from({ length: count }, () => {
+        const nx = Math.random();
+        const ny = Math.random();
+        return {
+          nx,
+          ny,
+          x: nx * width,
+          y: ny * height,
+          vx: (Math.random() - 0.5) * 0.0006, // normalized velocity
+          vy: (Math.random() - 0.5) * 0.0006,
+          r: 1 + Math.random() * 1.4,
+        };
+      });
+      pulses = [];
+    };
+
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const target = Math.floor((width * height) / 16000);
-      const count = Math.max(40, Math.min(110, target));
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: 1 + Math.random() * 1.4,
-      }));
-      pulses = [];
+      if (!nodes.length) {
+        buildNodes();
+      } else {
+        // re-project existing nodes to new pixel dimensions — keeps them centered
+        for (const n of nodes) {
+          n.x = n.nx * width;
+          n.y = n.ny * height;
+        }
+      }
     };
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches[0]) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+      }
+    };
     const onLeave = () => {
       mouseX = -9999;
       mouseY = -9999;
     };
 
-    const MAX_DIST = 140;
+    // Scale interaction radius and edge distance to viewport
+    const scaleDist = () => Math.max(90, Math.min(180, Math.hypot(width, height) * 0.09));
+
 
     const draw = () => {
       const primary = cssVar("--primary");
