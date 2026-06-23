@@ -104,8 +104,15 @@ export function NeuralBackground() {
     };
     const onClick = (e: MouseEvent) => bigBang(e.clientX, e.clientY);
 
-    // Scale interaction radius and edge distance to viewport
-    const scaleDist = () => Math.max(90, Math.min(180, Math.hypot(width, height) * 0.09));
+    // Scale interaction radius and edge distance to viewport (+10% link reach)
+    const scaleDist = () => Math.max(99, Math.min(198, Math.hypot(width, height) * 0.099));
+
+    // Per-edge lifecycle: phase walks between -1..1 at fixed speed (same
+    // birth and death rate). Visible only while phase > 0; alpha = phase.
+    const edgePhase = new Map<number, number>();
+    const edgeDir = new Map<number, 1 | -1>();
+    const EDGE_SPEED = 0.012; // same for fade-in and fade-out
+    const keyOf = (i: number, j: number) => i * 4096 + j;
 
 
     const draw = () => {
