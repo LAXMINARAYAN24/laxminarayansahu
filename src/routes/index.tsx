@@ -211,7 +211,9 @@ function Portfolio() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground antialiased">
+    <main className="relative min-h-screen bg-background text-foreground antialiased">
+      <NeuralBackground />
+      <div className="relative z-10">
       <div
         className="fixed left-0 top-0 z-50 h-0.5 origin-left"
         style={{ width: `${progress}%`, background: "var(--gradient-primary)" }}
