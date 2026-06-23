@@ -317,9 +317,9 @@ function Portfolio() {
 
           <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {[
-              { k: "4+", v: "Projects shipped" },
+              { k: "5", v: "Projects shipped" },
               { k: "5427", v: "JEE Main AIR" },
-              { k: "10+", v: "Technologies" },
+              { k: "15+", v: "Technologies" },
               { k: "2027", v: "Graduating" },
             ].map((s) => (
               <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
