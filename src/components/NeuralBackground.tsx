@@ -132,7 +132,8 @@ export function NeuralBackground() {
         n.ny = n.y / height;
       }
 
-      // edges between nodes
+      // edges between nodes — break near cursor
+      const BREAK_R = MAX_DIST * 0.9;
       const edges: { a: number; b: number; dist: number }[] = [];
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -142,6 +143,11 @@ export function NeuralBackground() {
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist < MAX_DIST) {
+            // distance from mouse to segment midpoint (cheap break check)
+            const mx = (a.x + b.x) / 2;
+            const my = (a.y + b.y) / 2;
+            const md = Math.hypot(mx - mouseX, my - mouseY);
+            if (md < BREAK_R) continue; // link broken by cursor
             const alpha = (1 - dist / MAX_DIST) * 0.35;
             ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
               alpha * 100,
@@ -152,26 +158,6 @@ export function NeuralBackground() {
             ctx.lineTo(b.x, b.y);
             ctx.stroke();
             edges.push({ a: i, b: j, dist });
-          }
-        }
-      }
-
-      // cursor → node connections (mouse-reactive highlight)
-      if (mouseX > -1000) {
-        for (const n of nodes) {
-          const dx = n.x - mouseX;
-          const dy = n.y - mouseY;
-          const dist = Math.hypot(dx, dy);
-          if (dist < CURSOR_R) {
-            const alpha = (1 - dist / CURSOR_R) * 0.7;
-            ctx.strokeStyle = `color-mix(in oklab, ${accent} ${Math.round(
-              alpha * 100,
-            )}%, transparent)`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(mouseX, mouseY);
-            ctx.lineTo(n.x, n.y);
-            ctx.stroke();
           }
         }
       }
