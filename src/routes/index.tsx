@@ -255,7 +255,7 @@ function Portfolio() {
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: "var(--gradient-primary)" }}
             >
-              Sahu.
+              Sahu
             </span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
@@ -443,7 +443,7 @@ function Portfolio() {
 
       <footer className="border-t border-border/60 py-8">
         <div className="mx-auto max-w-6xl px-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Laxminarayan Sahu. Crafted with care.
+          © {new Date().getFullYear()} Laxminarayan Sahu Crafted with care
         </div>
       </footer>
 
