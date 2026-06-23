@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { Affiliations } from "@/components/Affiliations";
-import nitkLogo from "@/assets/logo-nitk.png";
+import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/logo-sprit.png";
 
