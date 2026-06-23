@@ -39,8 +39,28 @@ type Project = {
 
 const projects: Project[] = [
   {
+    name: "AI Job Tracker",
+    period: "Jan – Apr 2025",
+    blurb: "AI-driven career portal with Gemini-powered CV optimization, role recommendations, and end-to-end application tracking.",
+    details: "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
+    stack: ["Node.js", "Express", "MongoDB", "EJS", "Gemini API"],
+    tag: "Full-Stack",
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
+    accent: "from-violet-500 via-purple-500 to-indigo-500",
+  },
+  {
+    name: "Music Style Classification",
+    period: "Jul – Nov 2024",
+    blurb: "Audio genre classifier built on spectrogram features and deep learning, trained end-to-end on the GTZAN dataset.",
+    details: "Extracts MFCC and mel-spectrogram features from raw audio, trains a CNN to recognize musical genres, and compares it against classical ML baselines (SVM, Random Forest). Includes a clean training pipeline, confusion-matrix evaluation, and inference on user-supplied clips.",
+    stack: ["Python", "TensorFlow", "Keras", "Librosa", "scikit-learn", "NumPy"],
+    tag: "AI",
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/MUSIC-STYLE-CLASSIFICATiION" }],
+    accent: "from-fuchsia-500 via-pink-500 to-rose-500",
+  },
+  {
     name: "VOICEVIZ",
-    period: "Jan – Mar 2026",
+    period: "Jan – May 2026",
     blurb: "AI SQL workspace with voice-to-query input, schema exploration, secure multi-user auth, and interactive chatbot visualizations.",
     details: "VOICEVIZ turns natural speech into SQL. It listens to a question, infers the user's intent against the live database schema, generates a safe query, and renders the result as a chart or table. Multi-user auth and per-workspace RLS keep data isolated; an in-chat assistant explains queries and suggests follow-ups.",
     stack: ["React", "TypeScript", "Vite", "Tailwind", "Supabase", "Web Speech API"],
@@ -50,7 +70,7 @@ const projects: Project[] = [
   },
   {
     name: "ABMHE Image Enhancement",
-    period: "Jan – Apr 2026",
+    period: "Jan – May 2026",
     blurb: "Adaptive Block-based Multi-Histogram Equalization using overlapping sub-blocks and Hanning windows for smooth, artifact-free contrast.",
     details: "ABMHE splits the image into overlapping blocks, computes a local histogram per block, equalizes adaptively, and blends back using Hanning windows to eliminate block boundaries. Beats classic CLAHE on low-light and high-dynamic-range medical samples in side-by-side tests.",
     stack: ["Python", "PyTorch", "OpenCV", "NumPy"],
@@ -60,23 +80,13 @@ const projects: Project[] = [
   },
   {
     name: "Steg-Drop",
-    period: "Jan – Apr 2026",
+    period: "Jan – May 2026",
     blurb: "In-memory steganography tool hiding data in textured regions via Canny edges, secured with AES-256-GCM and PBKDF2.",
     details: "Steg-Drop never touches disk. Files are encrypted with AES-256-GCM (PBKDF2 key derivation), then embedded into high-texture regions of a cover image — picked via Canny edge density — making detection by statistical steganalysis significantly harder than uniform LSB.",
     stack: ["Python", "FastAPI", "OpenCV", "pycryptodome"],
     tag: "Security",
     links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
     accent: "from-rose-500 via-orange-500 to-amber-500",
-  },
-  {
-    name: "AI Job Tracker",
-    period: "Jan – Jun 2026",
-    blurb: "AI-driven career portal with Gemini-powered CV optimization, role recommendations, and end-to-end application tracking.",
-    details: "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
-    stack: ["Node.js", "Express", "MongoDB", "EJS", "Gemini API"],
-    tag: "Full-Stack",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
-    accent: "from-violet-500 via-purple-500 to-indigo-500",
   },
 ];
 
@@ -90,6 +100,12 @@ const skills = {
     "LoRA",
     "Distributed LLM",
     "RAG",
+    "TensorFlow",
+    "Keras",
+    "PyTorch",
+    "Librosa",
+    "scikit-learn",
+    "OpenCV",
   ],
   Tools: ["Git", "GitHub", "VS Code"],
 };
@@ -108,13 +124,14 @@ type TimelineEntry = {
 const timeline: TimelineEntry[] = [
   { year: "2023", kind: "achievement", title: "JEE Main 2023", subtitle: "All India Rank 5427 among 1.2M+ candidates" },
   { year: "2023", kind: "education", title: "Joined NIT Karnataka", subtitle: "B.Tech, Information Technology — Aug 2023", logo: nitkLogo.url },
-  { year: "2026", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker" },
+  { year: "2024", kind: "project", title: "Music Style Classification", subtitle: "CNN-based audio genre classifier — Jul – Nov 2024" },
+  { year: "2025", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker — Jan – Apr 2025" },
+  { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations — Jan – May 2026" },
+  { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization — Jan – May 2026" },
+  { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026" },
   { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
   { year: "2026", kind: "experience", title: "Sprit Lab — ML Intern", subtitle: "Applied ML research & prototyping", logo: spritLogo },
   { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo.url },
-  { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations" },
-  { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization" },
-  { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography" },
   { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka", logo: nitkLogo.url },
 ];
 
