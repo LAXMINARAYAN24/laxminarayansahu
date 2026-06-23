@@ -237,7 +237,7 @@ function Portfolio() {
         id="top"
         ref={heroRef}
         onMouseMove={onHeroMove}
-        className={`${heroTheme.cls} relative overflow-hidden transition-colors duration-500`}
+        className="relative overflow-hidden transition-colors duration-500"
       >
         <div
           aria-hidden
@@ -248,24 +248,22 @@ function Portfolio() {
           }}
         />
         <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
-          <SectionThemeToggle theme={heroTheme.t} onToggle={heroTheme.toggle} />
-          <div className="mb-8 flex justify-start">
-            <ProfileAvatar />
-          </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             Available for internships & collaborations
           </div>
-          <h1 className="mt-6 text-5xl font-semibold tracking-tight md:text-7xl lg:text-8xl">
-            Laxminarayan
-            <br />
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-primary)" }}
-            >
-              Sahu
-            </span>
-          </h1>
+          <div className="mt-6 flex flex-wrap items-center gap-5 md:gap-7">
+            <ProfileAvatar size="inline" />
+            <h1 className="text-5xl font-semibold tracking-tight md:text-7xl lg:text-8xl">
+              Laxminarayan{" "}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{ backgroundImage: "var(--gradient-primary)" }}
+              >
+                Sahu
+              </span>
+            </h1>
+          </div>
           <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
             B.Tech Information Technology student at <span className="text-foreground">NIT Karnataka</span>,
             building thoughtful software across AI, full-stack, and computer vision.
@@ -313,9 +311,9 @@ function Portfolio() {
       </section>
 
       {/* Work */}
-      <section id="work" className={`${workTheme.cls} transition-colors duration-500`}>
+      <section id="work" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-24 relative">
-          <SectionThemeToggle theme={workTheme.t} onToggle={workTheme.toggle} />
+
           <div className="reveal mb-10 flex items-end justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-primary">Selected Work</p>
@@ -353,7 +351,7 @@ function Portfolio() {
       </section>
 
       {/* Affiliations */}
-      <section id="affiliations" className={`${workTheme.cls} transition-colors duration-500`}>
+      <section id="affiliations" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-24 relative">
           <div className="reveal mb-10">
             <p className="text-xs uppercase tracking-[0.2em] text-primary">Affiliations</p>
@@ -370,9 +368,9 @@ function Portfolio() {
 
 
       {/* Timeline */}
-      <section id="timeline" className={`${timelineTheme.cls} transition-colors duration-500`}>
+      <section id="timeline" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-24 relative">
-          <SectionThemeToggle theme={timelineTheme.t} onToggle={timelineTheme.toggle} />
+
           <div className="reveal mb-12">
             <p className="text-xs uppercase tracking-[0.2em] text-primary">Journey</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">A timeline of milestones.</h2>
@@ -382,9 +380,9 @@ function Portfolio() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className={`${skillsTheme.cls} transition-colors duration-500`}>
+      <section id="skills" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-24 relative">
-          <SectionThemeToggle theme={skillsTheme.t} onToggle={skillsTheme.toggle} />
+
           <div className="reveal">
             <p className="text-xs uppercase tracking-[0.2em] text-primary">Toolkit</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Technologies I work with.</h2>
@@ -405,9 +403,9 @@ function Portfolio() {
       </section>
 
       {/* About */}
-      <section id="about" className={`${aboutTheme.cls} transition-colors duration-500`}>
+      <section id="about" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-24 relative">
-          <SectionThemeToggle theme={aboutTheme.t} onToggle={aboutTheme.toggle} />
+
           <div className="grid gap-12 md:grid-cols-2">
             <div className="reveal">
               <p className="text-xs uppercase tracking-[0.2em] text-primary">About</p>
@@ -439,9 +437,9 @@ function Portfolio() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className={`${contactTheme.cls} transition-colors duration-500`}>
+      <section id="contact" className="transition-colors duration-500">
         <div className="mx-auto max-w-6xl px-6 py-32 relative">
-          <SectionThemeToggle theme={contactTheme.t} onToggle={contactTheme.toggle} />
+
           <div
             className="reveal relative overflow-hidden rounded-3xl border border-border bg-card p-10 md:p-16"
             style={{ boxShadow: "var(--shadow-card)" }}
