@@ -91,6 +91,18 @@ export function NeuralBackground() {
       mouseX = -9999;
       mouseY = -9999;
     };
+    const bigBang = (cx: number, cy: number) => {
+      for (const n of nodes) {
+        const dx = n.x - cx;
+        const dy = n.y - cy;
+        const d = Math.hypot(dx, dy) || 1;
+        // strength falls off slightly with distance; min impulse so all spread
+        const power = 0.018 + (1 / (1 + d / 200)) * 0.022;
+        n.vx += (dx / d) * power;
+        n.vy += (dy / d) * power;
+      }
+    };
+    const onClick = (e: MouseEvent) => bigBang(e.clientX, e.clientY);
 
     // Scale interaction radius and edge distance to viewport
     const scaleDist = () => Math.max(90, Math.min(180, Math.hypot(width, height) * 0.09));
@@ -113,25 +125,27 @@ export function NeuralBackground() {
         n.x = Math.max(0, Math.min(width, n.x));
         n.y = Math.max(0, Math.min(height, n.y));
 
-        // mouse attraction
-        const dx = mouseX - n.x;
-        const dy = mouseY - n.y;
+        // repel from cursor
+        const dx = n.x - mouseX;
+        const dy = n.y - mouseY;
         const d2 = dx * dx + dy * dy;
-        if (d2 < CURSOR_R * CURSOR_R && d2 > 1) {
+        const REPEL_R = MAX_DIST * 1.2;
+        if (d2 < REPEL_R * REPEL_R && d2 > 1) {
           const d = Math.sqrt(d2);
-          const pull = (1 - d / CURSOR_R) * 0.00002;
-          n.vx += (dx / d) * pull * width;
-          n.vy += (dy / d) * pull * height;
+          const push = (1 - d / REPEL_R) * 0.00045;
+          n.vx += (dx / d) * push;
+          n.vy += (dy / d) * push;
         }
-        // damping + clamp normalized velocity
-        n.vx = Math.max(-0.0025, Math.min(0.0025, n.vx * 0.985));
-        n.vy = Math.max(-0.0025, Math.min(0.0025, n.vy * 0.985));
+        // damping + clamp normalized velocity (raised for big-bang)
+        n.vx = Math.max(-0.02, Math.min(0.02, n.vx * 0.97));
+        n.vy = Math.max(-0.02, Math.min(0.02, n.vy * 0.97));
 
         n.nx = n.x / width;
         n.ny = n.y / height;
       }
 
-      // edges between nodes
+      // edges between nodes — break near cursor
+      const BREAK_R = MAX_DIST * 0.9;
       const edges: { a: number; b: number; dist: number }[] = [];
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -141,6 +155,11 @@ export function NeuralBackground() {
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist < MAX_DIST) {
+            // distance from mouse to segment midpoint (cheap break check)
+            const mx = (a.x + b.x) / 2;
+            const my = (a.y + b.y) / 2;
+            const md = Math.hypot(mx - mouseX, my - mouseY);
+            if (md < BREAK_R) continue; // link broken by cursor
             const alpha = (1 - dist / MAX_DIST) * 0.35;
             ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
               alpha * 100,
@@ -151,26 +170,6 @@ export function NeuralBackground() {
             ctx.lineTo(b.x, b.y);
             ctx.stroke();
             edges.push({ a: i, b: j, dist });
-          }
-        }
-      }
-
-      // cursor → node connections (mouse-reactive highlight)
-      if (mouseX > -1000) {
-        for (const n of nodes) {
-          const dx = n.x - mouseX;
-          const dy = n.y - mouseY;
-          const dist = Math.hypot(dx, dy);
-          if (dist < CURSOR_R) {
-            const alpha = (1 - dist / CURSOR_R) * 0.7;
-            ctx.strokeStyle = `color-mix(in oklab, ${accent} ${Math.round(
-              alpha * 100,
-            )}%, transparent)`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(mouseX, mouseY);
-            ctx.lineTo(n.x, n.y);
-            ctx.stroke();
           }
         }
       }
@@ -224,6 +223,7 @@ export function NeuralBackground() {
     window.addEventListener("mouseleave", onLeave);
     window.addEventListener("touchmove", onTouch, { passive: true });
     window.addEventListener("touchend", onLeave);
+    window.addEventListener("click", onClick);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -232,6 +232,7 @@ export function NeuralBackground() {
       window.removeEventListener("mouseleave", onLeave);
       window.removeEventListener("touchmove", onTouch);
       window.removeEventListener("touchend", onLeave);
+      window.removeEventListener("click", onClick);
     };
   }, []);
 
