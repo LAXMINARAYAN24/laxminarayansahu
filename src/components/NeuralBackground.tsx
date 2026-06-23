@@ -223,6 +223,7 @@ export function NeuralBackground() {
     window.addEventListener("mouseleave", onLeave);
     window.addEventListener("touchmove", onTouch, { passive: true });
     window.addEventListener("touchend", onLeave);
+    window.addEventListener("click", onClick);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -231,6 +232,7 @@ export function NeuralBackground() {
       window.removeEventListener("mouseleave", onLeave);
       window.removeEventListener("touchmove", onTouch);
       window.removeEventListener("touchend", onLeave);
+      window.removeEventListener("click", onClick);
     };
   }, []);
 
