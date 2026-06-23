@@ -21,11 +21,6 @@ export function NeuralBackground() {
     let mouseX = -9999;
     let mouseY = -9999;
 
-    type Node = { x: number; y: number; vx: number; vy: number; r: number };
-    type Pulse = { a: number; b: number; t: number; speed: number };
-
-    let nodes: Node[] = [];
-    let pulses: Pulse[] = [];
 
     const cssVar = (name: string) => {
       const v = getComputedStyle(document.documentElement)
