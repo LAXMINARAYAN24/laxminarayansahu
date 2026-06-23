@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { Affiliations } from "@/components/Affiliations";
+import { NeuralBackground } from "@/components/NeuralBackground";
 import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/logo-sprit.png";
@@ -210,7 +211,9 @@ function Portfolio() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground antialiased">
+    <main className="relative min-h-screen bg-background text-foreground antialiased">
+      <NeuralBackground />
+      <div className="relative z-10">
       <div
         className="fixed left-0 top-0 z-50 h-0.5 origin-left"
         style={{ width: `${progress}%`, background: "var(--gradient-primary)" }}
@@ -495,6 +498,7 @@ function Portfolio() {
       </footer>
 
       <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+      </div>
     </main>
   );
 }
