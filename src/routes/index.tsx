@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { Affiliations } from "@/components/Affiliations";
 import nitkLogo from "@/assets/logo-nitk.png";
-import iitjLogo from "@/assets/logo-iitj.png";
+import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/logo-sprit.png";
 
 export const Route = createFileRoute("/")({
@@ -103,7 +103,7 @@ const timeline: TimelineEntry[] = [
   { year: "2026", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker" },
   { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
   { year: "2026", kind: "experience", title: "Sprit Lab — ML Intern", subtitle: "Applied ML research & prototyping", logo: spritLogo },
-  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo },
+  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo.url },
   { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations" },
   { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization" },
   { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography" },
