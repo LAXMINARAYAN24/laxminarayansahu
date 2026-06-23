@@ -151,9 +151,10 @@ export function NeuralBackground() {
         n.ny = n.y / height;
       }
 
-      // edges between nodes — break near cursor
+      // edges between nodes — random create/destroy + break near cursor
       const BREAK_R = MAX_DIST * 0.9;
       const edges: { a: number; b: number; dist: number }[] = [];
+      const seen = new Set<number>();
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i];
@@ -161,16 +162,36 @@ export function NeuralBackground() {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
-          if (dist < MAX_DIST) {
-            // distance from mouse to segment midpoint (cheap break check)
-            const mx = (a.x + b.x) / 2;
-            const my = (a.y + b.y) / 2;
-            const md = Math.hypot(mx - mouseX, my - mouseY);
-            if (md < BREAK_R) continue; // link broken by cursor
-            const alpha = (1 - dist / MAX_DIST) * 0.35;
-            ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
-              alpha * 100,
-            )}%, transparent)`;
+          if (dist >= MAX_DIST) continue;
+          const k = keyOf(i, j);
+          seen.add(k);
+
+          // initialize new edge with random phase + random direction
+          if (!edgePhase.has(k)) {
+            edgePhase.set(k, -1 + Math.random() * 2);
+            edgeDir.set(k, Math.random() < 0.5 ? 1 : -1);
+          }
+          let p = edgePhase.get(k)!;
+          let dir = edgeDir.get(k)!;
+          p += EDGE_SPEED * dir;
+          if (p >= 1) { p = 1; dir = -1; }
+          else if (p <= -1) { p = -1; dir = 1; }
+          edgePhase.set(k, p);
+          edgeDir.set(k, dir);
+
+          if (p <= 0) continue; // currently "destroyed"
+
+          // break near cursor
+          const mx = (a.x + b.x) / 2;
+          const my = (a.y + b.y) / 2;
+          const md = Math.hypot(mx - mouseX, my - mouseY);
+          if (md < BREAK_R) continue;
+
+          const proximity = (1 - dist / MAX_DIST) * 0.4;
+          const alpha = proximity * p; // lifecycle modulates visibility
+          ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
+            alpha * 100,
+          )}%, transparent)`;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
