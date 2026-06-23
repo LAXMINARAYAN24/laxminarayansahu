@@ -4,7 +4,7 @@ import { z } from "zod";
 import {
   Mail, Phone, Github, Linkedin, ExternalLink, ArrowUpRight,
   Code2, Trophy, GraduationCap, Sparkles, Sun, Moon, Download,
-  X, Loader2, CheckCircle2, Calendar,
+  X, Loader2, CheckCircle2, Calendar, GripVertical,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
