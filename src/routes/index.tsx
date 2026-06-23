@@ -498,6 +498,7 @@ function Portfolio() {
       </footer>
 
       <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+      </div>
     </main>
   );
 }
