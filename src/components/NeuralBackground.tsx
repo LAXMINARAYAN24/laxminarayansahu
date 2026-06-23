@@ -91,6 +91,18 @@ export function NeuralBackground() {
       mouseX = -9999;
       mouseY = -9999;
     };
+    const bigBang = (cx: number, cy: number) => {
+      for (const n of nodes) {
+        const dx = n.x - cx;
+        const dy = n.y - cy;
+        const d = Math.hypot(dx, dy) || 1;
+        // strength falls off slightly with distance; min impulse so all spread
+        const power = 0.018 + (1 / (1 + d / 200)) * 0.022;
+        n.vx += (dx / d) * power;
+        n.vy += (dy / d) * power;
+      }
+    };
+    const onClick = (e: MouseEvent) => bigBang(e.clientX, e.clientY);
 
     // Scale interaction radius and edge distance to viewport
     const scaleDist = () => Math.max(90, Math.min(180, Math.hypot(width, height) * 0.09));
