@@ -113,19 +113,20 @@ export function NeuralBackground() {
         n.x = Math.max(0, Math.min(width, n.x));
         n.y = Math.max(0, Math.min(height, n.y));
 
-        // mouse attraction
-        const dx = mouseX - n.x;
-        const dy = mouseY - n.y;
+        // repel from cursor
+        const dx = n.x - mouseX;
+        const dy = n.y - mouseY;
         const d2 = dx * dx + dy * dy;
-        if (d2 < CURSOR_R * CURSOR_R && d2 > 1) {
+        const REPEL_R = MAX_DIST * 1.2;
+        if (d2 < REPEL_R * REPEL_R && d2 > 1) {
           const d = Math.sqrt(d2);
-          const pull = (1 - d / CURSOR_R) * 0.00002;
-          n.vx += (dx / d) * pull * width;
-          n.vy += (dy / d) * pull * height;
+          const push = (1 - d / REPEL_R) * 0.00045;
+          n.vx += (dx / d) * push;
+          n.vy += (dy / d) * push;
         }
-        // damping + clamp normalized velocity
-        n.vx = Math.max(-0.0025, Math.min(0.0025, n.vx * 0.985));
-        n.vy = Math.max(-0.0025, Math.min(0.0025, n.vy * 0.985));
+        // damping + clamp normalized velocity (raised for big-bang)
+        n.vx = Math.max(-0.02, Math.min(0.02, n.vx * 0.97));
+        n.vy = Math.max(-0.02, Math.min(0.02, n.vy * 0.97));
 
         n.nx = n.x / width;
         n.ny = n.y / height;
