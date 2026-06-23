@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { finalizeProfilePhoto, getProfilePhoto } from "@/lib/profile.functions";
 import { useAdmin } from "@/hooks/useAdmin";
 
-export function ProfileAvatar() {
+export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline" } = {}) {
   const { isAdmin } = useAdmin();
   const [url, setUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -48,9 +48,16 @@ export function ProfileAvatar() {
     }
   };
 
+  const sizeCls =
+    size === "inline"
+      ? "h-20 w-20 md:h-28 md:w-28"
+      : "h-40 w-40 md:h-48 md:w-48";
+  const iconBtnCls =
+    size === "inline" ? "h-7 w-7" : "h-10 w-10";
+
   return (
     <div className="relative inline-block">
-      <div className="relative h-40 w-40 overflow-hidden rounded-full border-2 border-border bg-card shadow-xl ring-4 ring-background md:h-48 md:w-48">
+      <div className={`relative ${sizeCls} overflow-hidden rounded-full border-2 border-border bg-card shadow-xl ring-4 ring-background`}>
         {url ? (
           <img
             src={url}
