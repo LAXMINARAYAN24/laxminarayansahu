@@ -255,7 +255,7 @@ function Portfolio() {
               className="bg-clip-text text-transparent"
               style={{ backgroundImage: "var(--gradient-primary)" }}
             >
-              Sahu.
+              Sahu
             </span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
