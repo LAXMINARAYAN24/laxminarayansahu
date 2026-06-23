@@ -83,6 +83,14 @@ const projects: Project[] = [
 const skills = {
   Languages: ["C/C++", "Python", "JavaScript", "TypeScript", "HTML", "CSS"],
   Frameworks: ["React", "Node.js", "Express.js", "MongoDB", "Supabase", "Tailwind CSS"],
+  "AI / ML": [
+    "Differential Privacy",
+    "Federated Learning",
+    "Split Learning",
+    "LoRA",
+    "Distributed LLM",
+    "RAG",
+  ],
   Tools: ["Git", "GitHub", "VS Code"],
 };
 
@@ -160,11 +168,7 @@ function useScrollProgress() {
   return p;
 }
 
-function useSectionTheme(initial: "light" | "dark") {
-  const [t, setT] = useState<"light" | "dark">(initial);
-  const toggle = () => setT((p) => (p === "light" ? "dark" : "light"));
-  return { t, toggle, cls: t === "light" ? "theme-light" : "theme-dark" };
-}
+// per-section theme removed; only the global theme toggle is used now
 
 function Portfolio() {
   const { theme, toggle } = useGlobalTheme();
@@ -172,14 +176,6 @@ function Portfolio() {
   const [filter, setFilter] = useState<Filter>("All");
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-
-  // Per-section theme: hero defaults light, rest default dark
-  const heroTheme = useSectionTheme("light");
-  const workTheme = useSectionTheme("dark");
-  const skillsTheme = useSectionTheme("dark");
-  const timelineTheme = useSectionTheme("dark");
-  const aboutTheme = useSectionTheme("dark");
-  const contactTheme = useSectionTheme("dark");
 
   useReveal([filter]);
 
