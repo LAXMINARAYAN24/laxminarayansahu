@@ -199,7 +199,7 @@ function Portfolio() {
       <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70 border-b border-border/60">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="text-sm font-semibold tracking-tight">
-            LS<span className="text-primary">.</span>
+            LS
           </a>
           <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
             <li><a href="#work" className="hover:text-foreground transition-colors">Work</a></li>
