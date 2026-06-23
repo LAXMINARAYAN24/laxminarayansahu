@@ -644,10 +644,74 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
   );
 }
 
+const TIMELINE_ORDER_KEY = "timeline-order-v1";
+
+function entryId(e: TimelineEntry) {
+  return `${e.year}::${e.title}`;
+}
+
 function Timeline({ entries }: { entries: TimelineEntry[] }) {
-  const years = Array.from(new Set(entries.map((e) => e.year)));
+  // Apply saved ordering from localStorage, if any.
+  const [ordered, setOrdered] = useState<TimelineEntry[]>(entries);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(TIMELINE_ORDER_KEY);
+      if (!saved) return;
+      const savedIds: string[] = JSON.parse(saved);
+      const byId = new Map(entries.map((e) => [entryId(e), e]));
+      const next: TimelineEntry[] = [];
+      for (const id of savedIds) {
+        const found = byId.get(id);
+        if (found) {
+          next.push(found);
+          byId.delete(id);
+        }
+      }
+      // append any new entries not present in saved order
+      for (const e of byId.values()) next.push(e);
+      setOrdered(next);
+    } catch {
+      /* ignore */
+    }
+  }, [entries]);
+
+  const persist = (next: TimelineEntry[]) => {
+    setOrdered(next);
+    try {
+      localStorage.setItem(
+        TIMELINE_ORDER_KEY,
+        JSON.stringify(next.map(entryId)),
+      );
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const years = Array.from(new Set(ordered.map((e) => e.year)));
   const [selected, setSelected] = useState<string>("All");
-  const visible = selected === "All" ? entries : entries.filter((e) => e.year === selected);
+  const visible = selected === "All" ? ordered : ordered.filter((e) => e.year === selected);
+  const canReorder = selected === "All";
+
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
+
+  const onDrop = (targetId: string) => {
+    if (!dragId || dragId === targetId) {
+      setDragId(null);
+      setOverId(null);
+      return;
+    }
+    const next = [...ordered];
+    const from = next.findIndex((e) => entryId(e) === dragId);
+    const to = next.findIndex((e) => entryId(e) === targetId);
+    if (from === -1 || to === -1) return;
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    persist(next);
+    setDragId(null);
+    setOverId(null);
+  };
 
   const kindColor: Record<TimelineEntry["kind"], string> = {
     education: "from-cyan-500 to-sky-500",
@@ -658,7 +722,7 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
 
   return (
     <div>
-      <div className="reveal mb-8 flex flex-wrap gap-2">
+      <div className="mb-8 flex flex-wrap items-center gap-2">
         {(["All", ...years] as const).map((y) => {
           const active = selected === y;
           return (
@@ -676,6 +740,11 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
             </button>
           );
         })}
+        {canReorder && (
+          <span className="ml-auto text-[11px] text-muted-foreground hidden sm:inline">
+            Drag <GripVertical className="inline h-3 w-3 -mt-0.5" /> to reorder
+          </span>
+        )}
       </div>
 
       <div className="relative">
@@ -683,14 +752,56 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
         <ul className="space-y-8">
           {visible.map((e, idx) => {
             const left = idx % 2 === 0;
+            const id = entryId(e);
+            const isOver = overId === id && dragId !== id;
             return (
-              <li key={`${e.year}-${e.title}`} className="reveal relative">
+              <li
+                key={id}
+                className={`relative transition-opacity ${dragId === id ? "opacity-40" : ""}`}
+                onDragOver={(ev) => {
+                  if (!canReorder || !dragId) return;
+                  ev.preventDefault();
+                  if (overId !== id) setOverId(id);
+                }}
+                onDragLeave={() => {
+                  if (overId === id) setOverId(null);
+                }}
+                onDrop={(ev) => {
+                  if (!canReorder) return;
+                  ev.preventDefault();
+                  onDrop(id);
+                }}
+              >
                 <div className={`md:flex ${left ? "md:flex-row" : "md:flex-row-reverse"} items-start gap-6`}>
                   <div className="hidden md:block md:w-1/2" />
                   <div className="relative md:w-1/2">
                     <div className={`absolute left-4 md:left-auto ${left ? "md:-left-3" : "md:-right-3"} top-3 h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br ${kindColor[e.kind]} shadow-lg`} />
-                    <div className="ml-12 md:ml-0 rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <div
+                      className={`ml-12 md:ml-0 rounded-2xl border bg-card p-5 transition-all hover:-translate-y-0.5 ${
+                        isOver ? "border-primary ring-2 ring-primary/40" : "border-border hover:border-primary/40"
+                      }`}
+                      style={{ boxShadow: "var(--shadow-card)" }}
+                    >
                       <div className="flex items-start gap-3">
+                        {canReorder && (
+                          <button
+                            type="button"
+                            draggable
+                            onDragStart={(ev) => {
+                              setDragId(id);
+                              ev.dataTransfer.effectAllowed = "move";
+                            }}
+                            onDragEnd={() => {
+                              setDragId(null);
+                              setOverId(null);
+                            }}
+                            aria-label="Drag to reorder"
+                            title="Drag to reorder"
+                            className="mt-1 -ml-1 inline-flex h-6 w-6 shrink-0 cursor-grab items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-muted active:cursor-grabbing"
+                          >
+                            <GripVertical className="h-4 w-4" />
+                          </button>
+                        )}
                         {e.logo && (
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 p-1">
                             <img src={e.logo} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
