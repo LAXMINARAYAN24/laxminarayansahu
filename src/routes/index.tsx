@@ -471,8 +471,9 @@ function Portfolio() {
       </section>
 
       <footer className="border-t border-border/60 py-8">
-        <div className="mx-auto max-w-6xl px-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Laxminarayan Sahu Crafted with care
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} Laxminarayan Sahu — Crafted with care</span>
+          <Link to="/auth" className="hover:text-foreground transition-colors">Admin</Link>
         </div>
       </footer>
 
