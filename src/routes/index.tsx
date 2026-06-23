@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import {
@@ -10,6 +10,11 @@ import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { ProfileAvatar } from "@/components/ProfileAvatar";
+import { Affiliations } from "@/components/Affiliations";
+import nitkLogo from "@/assets/logo-nitk.png";
+import iitjLogo from "@/assets/logo-iitj.png";
+import spritLogo from "@/assets/logo-sprit.png";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
@@ -89,17 +94,20 @@ type TimelineEntry = {
   kind: "education" | "project" | "achievement" | "experience";
   title: string;
   subtitle: string;
+  logo?: string;
 };
 
 const timeline: TimelineEntry[] = [
   { year: "2023", kind: "achievement", title: "JEE Main 2023", subtitle: "All India Rank 5427 among 1.2M+ candidates" },
-  { year: "2023", kind: "education", title: "Joined NIT Karnataka", subtitle: "B.Tech, Information Technology — Aug 2023" },
+  { year: "2023", kind: "education", title: "Joined NIT Karnataka", subtitle: "B.Tech, Information Technology — Aug 2023", logo: nitkLogo },
   { year: "2025", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker" },
   { year: "2025", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
+  { year: "2025", kind: "experience", title: "Sprit Lab — ML Intern", subtitle: "Applied ML research & prototyping", logo: spritLogo },
+  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo },
   { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations" },
   { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization" },
   { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography" },
-  { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka" },
+  { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka", logo: nitkLogo },
 ];
 
 function useGlobalTheme() {
@@ -203,6 +211,7 @@ function Portfolio() {
           </a>
           <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
             <li><a href="#work" className="hover:text-foreground transition-colors">Work</a></li>
+            <li><a href="#affiliations" className="hover:text-foreground transition-colors">Affiliations</a></li>
             <li><a href="#timeline" className="hover:text-foreground transition-colors">Timeline</a></li>
             <li><a href="#skills" className="hover:text-foreground transition-colors">Skills</a></li>
             <li><a href="#about" className="hover:text-foreground transition-colors">About</a></li>
@@ -244,6 +253,9 @@ function Portfolio() {
         />
         <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
           <SectionThemeToggle theme={heroTheme.t} onToggle={heroTheme.toggle} />
+          <div className="mb-8 flex justify-start">
+            <ProfileAvatar />
+          </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
             Available for internships & collaborations
@@ -343,6 +355,23 @@ function Portfolio() {
           </div>
         </div>
       </section>
+
+      {/* Affiliations */}
+      <section id="affiliations" className={`${workTheme.cls} transition-colors duration-500`}>
+        <div className="mx-auto max-w-6xl px-6 py-24 relative">
+          <div className="reveal mb-10">
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">Affiliations</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+              Where I&apos;ve studied & built.
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              The institutions and labs that have shaped my journey so far.
+            </p>
+          </div>
+          <Affiliations />
+        </div>
+      </section>
+
 
       {/* Timeline */}
       <section id="timeline" className={`${timelineTheme.cls} transition-colors duration-500`}>
@@ -643,15 +672,24 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
                   <div className="relative md:w-1/2">
                     <div className={`absolute left-4 md:left-auto ${left ? "md:-left-3" : "md:-right-3"} top-3 h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br ${kindColor[e.kind]} shadow-lg`} />
                     <div className="ml-12 md:ml-0 rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40" style={{ boxShadow: "var(--shadow-card)" }}>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="h-3.5 w-3.5" />
-                        <span>{e.year}</span>
-                        <span className="rounded-full border border-border bg-background/60 px-2 py-0.5 text-[10px] uppercase tracking-wider">
-                          {e.kind}
-                        </span>
+                      <div className="flex items-start gap-3">
+                        {e.logo && (
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 p-1">
+                            <img src={e.logo} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Calendar className="h-3.5 w-3.5" />
+                            <span>{e.year}</span>
+                            <span className="rounded-full border border-border bg-background/60 px-2 py-0.5 text-[10px] uppercase tracking-wider">
+                              {e.kind}
+                            </span>
+                          </div>
+                          <p className="mt-2 font-semibold tracking-tight">{e.title}</p>
+                          <p className="mt-1 text-sm text-muted-foreground">{e.subtitle}</p>
+                        </div>
                       </div>
-                      <p className="mt-2 font-semibold tracking-tight">{e.title}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">{e.subtitle}</p>
                     </div>
                   </div>
                 </div>
