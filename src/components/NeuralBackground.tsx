@@ -192,14 +192,18 @@ export function NeuralBackground() {
           ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
             alpha * 100,
           )}%, transparent)`;
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-            edges.push({ a: i, b: j, dist });
-          }
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+          edges.push({ a: i, b: j, dist });
         }
+      }
+
+      // GC edges no longer in proximity
+      for (const k of edgePhase.keys()) {
+        if (!seen.has(k)) { edgePhase.delete(k); edgeDir.delete(k); }
       }
 
       // nodes
