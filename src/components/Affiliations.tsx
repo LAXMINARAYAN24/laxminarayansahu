@@ -28,7 +28,7 @@ export const affiliations: Affiliation[] = [
   {
     name: "Sprit Lab",
     role: "ML Intern",
-    period: "2025",
+    period: "2026",
     logo: spritLogo,
   },
 ];

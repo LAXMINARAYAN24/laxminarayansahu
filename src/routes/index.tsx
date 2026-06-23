@@ -70,7 +70,7 @@ const projects: Project[] = [
   },
   {
     name: "AI Job Tracker",
-    period: "Jan – Jun 2025",
+    period: "Jan – Jun 2026",
     blurb: "AI-driven career portal with Gemini-powered CV optimization, role recommendations, and end-to-end application tracking.",
     details: "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
     stack: ["Node.js", "Express", "MongoDB", "EJS", "Gemini API"],
@@ -100,9 +100,9 @@ type TimelineEntry = {
 const timeline: TimelineEntry[] = [
   { year: "2023", kind: "achievement", title: "JEE Main 2023", subtitle: "All India Rank 5427 among 1.2M+ candidates" },
   { year: "2023", kind: "education", title: "Joined NIT Karnataka", subtitle: "B.Tech, Information Technology — Aug 2023", logo: nitkLogo },
-  { year: "2025", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker" },
-  { year: "2025", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
-  { year: "2025", kind: "experience", title: "Sprit Lab — ML Intern", subtitle: "Applied ML research & prototyping", logo: spritLogo },
+  { year: "2026", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker" },
+  { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
+  { year: "2026", kind: "experience", title: "Sprit Lab — ML Intern", subtitle: "Applied ML research & prototyping", logo: spritLogo },
   { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo },
   { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations" },
   { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization" },
