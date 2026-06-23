@@ -21,11 +21,6 @@ export function NeuralBackground() {
     let mouseX = -9999;
     let mouseY = -9999;
 
-    type Node = { x: number; y: number; vx: number; vy: number; r: number };
-    type Pulse = { a: number; b: number; t: number; speed: number };
-
-    let nodes: Node[] = [];
-    let pulses: Pulse[] = [];
 
     const cssVar = (name: string) => {
       const v = getComputedStyle(document.documentElement)
@@ -34,65 +29,109 @@ export function NeuralBackground() {
       return v || "oklch(0.6 0.16 200)";
     };
 
+    // Keep node positions in normalized [0,1] space so they stay centered
+    // and proportionally placed across any viewport size.
+    type Node = { nx: number; ny: number; x: number; y: number; vx: number; vy: number; r: number };
+    type Pulse = { a: number; b: number; t: number; speed: number };
+
+    let nodes: Node[] = [];
+    let pulses: Pulse[] = [];
+
+    const buildNodes = () => {
+      // density tuned to viewport area, clamped for perf
+      const target = Math.floor((width * height) / 16000);
+      const count = Math.max(36, Math.min(120, target));
+      nodes = Array.from({ length: count }, () => {
+        const nx = Math.random();
+        const ny = Math.random();
+        return {
+          nx,
+          ny,
+          x: nx * width,
+          y: ny * height,
+          vx: (Math.random() - 0.5) * 0.0006, // normalized velocity
+          vy: (Math.random() - 0.5) * 0.0006,
+          r: 1 + Math.random() * 1.4,
+        };
+      });
+      pulses = [];
+    };
+
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const target = Math.floor((width * height) / 16000);
-      const count = Math.max(40, Math.min(110, target));
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: 1 + Math.random() * 1.4,
-      }));
-      pulses = [];
+      if (!nodes.length) {
+        buildNodes();
+      } else {
+        // re-project existing nodes to new pixel dimensions — keeps them centered
+        for (const n of nodes) {
+          n.x = n.nx * width;
+          n.y = n.ny * height;
+        }
+      }
     };
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches[0]) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+      }
+    };
     const onLeave = () => {
       mouseX = -9999;
       mouseY = -9999;
     };
 
-    const MAX_DIST = 140;
+    // Scale interaction radius and edge distance to viewport
+    const scaleDist = () => Math.max(90, Math.min(180, Math.hypot(width, height) * 0.09));
+
 
     const draw = () => {
       const primary = cssVar("--primary");
       const accent = cssVar("--accent");
+      const MAX_DIST = scaleDist();
+      const CURSOR_R = MAX_DIST * 1.4;
 
       ctx.clearRect(0, 0, width, height);
 
-      // move nodes
+      // move nodes in pixel space, sync back to normalized so resize keeps layout
       for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
+        n.x += n.vx * width;
+        n.y += n.vy * height;
         if (n.x < 0 || n.x > width) n.vx *= -1;
         if (n.y < 0 || n.y > height) n.vy *= -1;
+        n.x = Math.max(0, Math.min(width, n.x));
+        n.y = Math.max(0, Math.min(height, n.y));
 
-        // gentle attraction toward cursor
+        // mouse attraction
         const dx = mouseX - n.x;
         const dy = mouseY - n.y;
         const d2 = dx * dx + dy * dy;
-        if (d2 < 200 * 200) {
-          const f = 0.0009;
-          n.vx += dx * f * 0.02;
-          n.vy += dy * f * 0.02;
+        if (d2 < CURSOR_R * CURSOR_R && d2 > 1) {
+          const d = Math.sqrt(d2);
+          const pull = (1 - d / CURSOR_R) * 0.00002;
+          n.vx += (dx / d) * pull * width;
+          n.vy += (dy / d) * pull * height;
         }
-        // damping
-        n.vx = Math.max(-0.6, Math.min(0.6, n.vx * 0.995));
-        n.vy = Math.max(-0.6, Math.min(0.6, n.vy * 0.995));
+        // damping + clamp normalized velocity
+        n.vx = Math.max(-0.0025, Math.min(0.0025, n.vx * 0.985));
+        n.vy = Math.max(-0.0025, Math.min(0.0025, n.vy * 0.985));
+
+        n.nx = n.x / width;
+        n.ny = n.y / height;
       }
 
-      // edges
+      // edges between nodes
       const edges: { a: number; b: number; dist: number }[] = [];
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -116,6 +155,26 @@ export function NeuralBackground() {
         }
       }
 
+      // cursor → node connections (mouse-reactive highlight)
+      if (mouseX > -1000) {
+        for (const n of nodes) {
+          const dx = n.x - mouseX;
+          const dy = n.y - mouseY;
+          const dist = Math.hypot(dx, dy);
+          if (dist < CURSOR_R) {
+            const alpha = (1 - dist / CURSOR_R) * 0.7;
+            ctx.strokeStyle = `color-mix(in oklab, ${accent} ${Math.round(
+              alpha * 100,
+            )}%, transparent)`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(mouseX, mouseY);
+            ctx.lineTo(n.x, n.y);
+            ctx.stroke();
+          }
+        }
+      }
+
       // nodes
       for (const n of nodes) {
         ctx.fillStyle = `color-mix(in oklab, ${primary} 75%, transparent)`;
@@ -123,6 +182,7 @@ export function NeuralBackground() {
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();
       }
+
 
       // spawn pulses occasionally
       if (edges.length && Math.random() < 0.08 && pulses.length < 18) {
@@ -162,12 +222,16 @@ export function NeuralBackground() {
     ro.observe(canvas);
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mouseleave", onLeave);
+    window.addEventListener("touchmove", onTouch, { passive: true });
+    window.addEventListener("touchend", onLeave);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchend", onLeave);
     };
   }, []);
 
