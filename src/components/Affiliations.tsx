@@ -1,5 +1,5 @@
 import nitkLogo from "@/assets/logo-nitk.png";
-import iitjLogo from "@/assets/logo-iitj.png";
+import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/logo-sprit.png";
 
 export type Affiliation = {
@@ -22,7 +22,7 @@ export const affiliations: Affiliation[] = [
     name: "IIT Jodhpur",
     role: "Research Intern",
     period: "Summer 2026",
-    logo: iitjLogo,
+    logo: iitjLogo.url,
     href: "https://www.iitj.ac.in/",
   },
   {
