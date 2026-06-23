@@ -85,7 +85,7 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
             disabled={uploading}
             title="Replace photo"
             aria-label="Replace profile photo"
-            className="absolute bottom-1 right-1 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-transform hover:scale-105 disabled:opacity-50"
+            className={`absolute bottom-0 right-0 inline-flex ${iconBtnCls} items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-transform hover:scale-105 disabled:opacity-50`}
             style={{ boxShadow: "var(--shadow-glow)" }}
           >
             <Camera className="h-4 w-4" />
