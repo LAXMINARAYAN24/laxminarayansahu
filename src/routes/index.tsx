@@ -193,7 +193,7 @@ function Portfolio() {
   const progress = useScrollProgress();
   const [filter, setFilter] = useState<Filter>("All");
   const [openProject, setOpenProject] = useState<Project | null>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
 
   useReveal([filter]);
 
@@ -202,17 +202,29 @@ function Portfolio() {
     [filter],
   );
 
-  const onHeroMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = heroRef.current;
+  const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = mainRef.current;
     if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    el.style.setProperty("--mx", `${e.clientX}px`);
+    el.style.setProperty("--my", `${e.clientY}px`);
   };
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground antialiased">
+    <main
+      ref={mainRef}
+      onMouseMove={onMouseMove}
+      className="relative min-h-screen bg-background text-foreground antialiased"
+    >
       <NeuralBackground />
+      {/* Global cursor glow — spans all sections so no partition line appears */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(520px circle at var(--mx, 50%) var(--my, 30%), color-mix(in oklab, var(--primary) 20%, transparent), transparent 65%)",
+        }}
+      />
       <div className="relative z-10">
       <div
         className="fixed left-0 top-0 z-50 h-0.5 origin-left"
@@ -255,18 +267,8 @@ function Portfolio() {
       {/* Hero */}
       <section
         id="top"
-        ref={heroRef}
-        onMouseMove={onHeroMove}
         className="relative overflow-hidden transition-colors duration-500"
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(500px circle at var(--mx, 50%) var(--my, 30%), color-mix(in oklab, var(--primary) 22%, transparent), transparent 60%)",
-          }}
-        />
         <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
