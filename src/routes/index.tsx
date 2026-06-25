@@ -234,12 +234,6 @@ function Portfolio() {
             <li><a href="#contact" className="hover:text-foreground transition-colors">Contact</a></li>
           </ul>
           <div className="flex items-center gap-2">
-            <Link
-              to="/auth"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
-            >
-              Admin
-            </Link>
             <a
               href="/resume.pdf"
               download
