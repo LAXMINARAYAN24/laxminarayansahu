@@ -255,10 +255,8 @@ export function NeuralBackground() {
         const x = a.x + (b.x - a.x) * p.t;
         const y = a.y + (b.y - a.y) * p.t;
         const fade = Math.sin(p.t * Math.PI);
-        ctx.fillStyle = `color-mix(in oklab, ${accent} ${Math.round(
-          fade * 90,
-        )}%, transparent)`;
-        ctx.shadowColor = accent;
+        ctx.fillStyle = `rgba(${accentRgb}, ${(fade * 0.9).toFixed(3)})`;
+        ctx.shadowColor = `rgba(${accentRgb}, 1)`;
         ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.arc(x, y, 2.2, 0, Math.PI * 2);
