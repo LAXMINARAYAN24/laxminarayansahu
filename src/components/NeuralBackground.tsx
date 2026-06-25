@@ -116,10 +116,18 @@ export function NeuralBackground() {
 
 
     const draw = () => {
-      const primary = cssVar("--primary");
-      const accent = cssVar("--accent");
+      // Bright neural palette — vivid blue + orange that read well on both themes.
+      const BLUE = "59, 130, 246";    // #3b82f6
+      const ORANGE = "249, 115, 22";  // #f97316
+      const CYAN = "34, 211, 238";    // #22d3ee
+      const isLight =
+        !document.documentElement.classList.contains("dark");
+      // Boost alpha and node fill in light mode so links aren't washed out.
+      const ALPHA_MUL = isLight ? 2.2 : 1.4;
+      const NODE_ALPHA = isLight ? 0.95 : 0.85;
+      const accentRgb = isLight ? ORANGE : CYAN;
+
       const MAX_DIST = scaleDist();
-      const CURSOR_R = MAX_DIST * 1.4;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -151,7 +159,6 @@ export function NeuralBackground() {
           n.vx += Math.cos(ang) * 0.0008;
           n.vy += Math.sin(ang) * 0.0008;
         }
-        // light damping + clamp normalized velocity (raised for big-bang)
         n.vx = Math.max(-0.02, Math.min(0.02, n.vx * 0.995));
         n.vy = Math.max(-0.02, Math.min(0.02, n.vy * 0.995));
 
@@ -174,7 +181,6 @@ export function NeuralBackground() {
           const k = keyOf(i, j);
           seen.add(k);
 
-          // initialize new edge with random phase + random direction
           if (!edgePhase.has(k)) {
             edgePhase.set(k, -1 + Math.random() * 2);
             edgeDir.set(k, Math.random() < 0.5 ? 1 : -1);
@@ -187,20 +193,22 @@ export function NeuralBackground() {
           edgePhase.set(k, p);
           edgeDir.set(k, dir);
 
-          if (p <= 0) continue; // currently "destroyed"
+          if (p <= 0) continue;
 
-          // break near cursor
           const mx = (a.x + b.x) / 2;
           const my = (a.y + b.y) / 2;
           const md = Math.hypot(mx - mouseX, my - mouseY);
           if (md < BREAK_R) continue;
 
-          const proximity = (1 - dist / MAX_DIST) * 0.4;
-          const alpha = proximity * p; // lifecycle modulates visibility
-          ctx.strokeStyle = `color-mix(in oklab, ${primary} ${Math.round(
-            alpha * 100,
-          )}%, transparent)`;
-          ctx.lineWidth = 0.6;
+          const proximity = (1 - dist / MAX_DIST) * 0.55;
+          const alpha = Math.min(1, proximity * p * ALPHA_MUL);
+
+          // blue → orange gradient along the link for a vivid neural look
+          const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+          grad.addColorStop(0, `rgba(${BLUE}, ${alpha})`);
+          grad.addColorStop(1, `rgba(${ORANGE}, ${alpha})`);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = isLight ? 0.9 : 0.7;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
@@ -214,12 +222,19 @@ export function NeuralBackground() {
         if (!seen.has(k)) { edgePhase.delete(k); edgeDir.delete(k); }
       }
 
-      // nodes
-      for (const n of nodes) {
-        ctx.fillStyle = `color-mix(in oklab, ${primary} 75%, transparent)`;
+      // nodes — alternate blue / orange for visual richness
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        const rgb = i % 2 === 0 ? BLUE : ORANGE;
+        ctx.fillStyle = `rgba(${rgb}, ${NODE_ALPHA})`;
+        if (!isLight) {
+          ctx.shadowColor = `rgba(${rgb}, 0.6)`;
+          ctx.shadowBlur = 6;
+        }
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, n.r + (isLight ? 0.3 : 0), 0, Math.PI * 2);
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
 
@@ -228,6 +243,7 @@ export function NeuralBackground() {
         const e = edges[Math.floor(Math.random() * edges.length)];
         pulses.push({ a: e.a, b: e.b, t: 0, speed: 0.008 + Math.random() * 0.012 });
       }
+
 
       // draw + advance pulses
       pulses = pulses.filter((p) => {
