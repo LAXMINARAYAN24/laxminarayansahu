@@ -49,8 +49,8 @@ export function NeuralBackground() {
           ny,
           x: nx * width,
           y: ny * height,
-          vx: (Math.random() - 0.5) * 0.0006, // normalized velocity
-          vy: (Math.random() - 0.5) * 0.0006,
+          vx: (Math.random() - 0.5) * 0.004, // normalized velocity
+          vy: (Math.random() - 0.5) * 0.004,
           r: 1 + Math.random() * 1.4,
         };
       });
