@@ -96,8 +96,8 @@ export function NeuralBackground() {
         const dx = n.x - cx;
         const dy = n.y - cy;
         const d = Math.hypot(dx, dy) || 1;
-        // strength falls off slightly with distance; min impulse so all spread
-        const power = 0.018 + (1 / (1 + d / 200)) * 0.022;
+        // gentler ripple — much smaller impulse, softer falloff
+        const power = 0.004 + (1 / (1 + d / 260)) * 0.006;
         n.vx += (dx / d) * power;
         n.vy += (dy / d) * power;
       }
