@@ -220,7 +220,7 @@ function Portfolio() {
       />
 
       {/* Nav */}
-      <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70 border-b border-border/60">
+      <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="text-sm font-semibold tracking-tight">
             LS
