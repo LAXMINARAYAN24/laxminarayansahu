@@ -49,8 +49,8 @@ export function NeuralBackground() {
           ny,
           x: nx * width,
           y: ny * height,
-          vx: (Math.random() - 0.5) * 0.0006, // normalized velocity
-          vy: (Math.random() - 0.5) * 0.0006,
+          vx: (Math.random() - 0.5) * 0.004, // normalized velocity
+          vy: (Math.random() - 0.5) * 0.004,
           r: 1 + Math.random() * 1.4,
         };
       });
@@ -143,9 +143,17 @@ export function NeuralBackground() {
           n.vx += (dx / d) * push;
           n.vy += (dy / d) * push;
         }
-        // damping + clamp normalized velocity (raised for big-bang)
-        n.vx = Math.max(-0.02, Math.min(0.02, n.vx * 0.97));
-        n.vy = Math.max(-0.02, Math.min(0.02, n.vy * 0.97));
+        // gentle drift toward minimum motion so nodes never fully stop
+        const speed = Math.hypot(n.vx, n.vy);
+        const MIN_SPEED = 0.0012;
+        if (speed < MIN_SPEED) {
+          const ang = Math.random() * Math.PI * 2;
+          n.vx += Math.cos(ang) * 0.0008;
+          n.vy += Math.sin(ang) * 0.0008;
+        }
+        // light damping + clamp normalized velocity (raised for big-bang)
+        n.vx = Math.max(-0.02, Math.min(0.02, n.vx * 0.995));
+        n.vy = Math.max(-0.02, Math.min(0.02, n.vy * 0.995));
 
         n.nx = n.x / width;
         n.ny = n.y / height;
