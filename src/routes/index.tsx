@@ -234,12 +234,6 @@ function Portfolio() {
             <li><a href="#contact" className="hover:text-foreground transition-colors">Contact</a></li>
           </ul>
           <div className="flex items-center gap-2">
-            <Link
-              to="/auth"
-              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
-            >
-              Admin
-            </Link>
             <a
               href="/resume.pdf"
               download
@@ -491,9 +485,8 @@ function Portfolio() {
       </section>
 
       <footer className="border-t border-border/60 py-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 text-xs text-muted-foreground">
+        <div className="mx-auto flex max-w-6xl items-center justify-center px-6 text-xs text-muted-foreground">
           <span>© {new Date().getFullYear()} Laxminarayan Sahu — Crafted with care</span>
-          <Link to="/auth" className="hover:text-foreground transition-colors">Admin</Link>
         </div>
       </footer>
 

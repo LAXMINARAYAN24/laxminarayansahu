@@ -49,7 +49,7 @@ export function Affiliations() {
                 loading="lazy"
                 width={1024}
                 height={1024}
-                className="max-h-20 w-auto object-contain grayscale opacity-80 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
+                className="max-h-20 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <p className="mt-5 text-base font-semibold tracking-tight">{a.name}</p>
