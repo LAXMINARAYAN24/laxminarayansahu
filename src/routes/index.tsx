@@ -267,18 +267,8 @@ function Portfolio() {
       {/* Hero */}
       <section
         id="top"
-        ref={heroRef}
-        onMouseMove={onHeroMove}
         className="relative overflow-hidden transition-colors duration-500"
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(500px circle at var(--mx, 50%) var(--my, 30%), color-mix(in oklab, var(--primary) 22%, transparent), transparent 60%)",
-          }}
-        />
         <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
