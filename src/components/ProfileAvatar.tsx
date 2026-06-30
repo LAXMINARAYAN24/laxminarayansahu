@@ -4,10 +4,11 @@ import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { finalizeProfilePhoto, getProfilePhoto } from "@/lib/profile.functions";
 import { useAdmin } from "@/hooks/useAdmin";
+import defaultPhoto from "@/assets/laxminarayan-sahu.jpg.asset.json";
 
 export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline" } = {}) {
   const { isAdmin } = useAdmin();
-  const [url, setUrl] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(defaultPhoto.url);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -15,7 +16,7 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
   const fetchPhoto = useServerFn(getProfilePhoto);
 
   useEffect(() => {
-    fetchPhoto().then((r) => setUrl(r.url)).catch(() => {});
+    fetchPhoto().then((r) => { if (r.url) setUrl(r.url); }).catch(() => {});
   }, [fetchPhoto]);
 
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,8 +51,8 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
 
   const sizeCls =
     size === "inline"
-      ? "h-20 w-20 md:h-28 md:w-28"
-      : "h-40 w-40 md:h-48 md:w-48";
+      ? "h-28 w-28 md:h-36 md:w-36"
+      : "h-48 w-48 md:h-56 md:w-56";
   const iconBtnCls =
     size === "inline" ? "h-7 w-7" : "h-10 w-10";
 
@@ -62,7 +63,7 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
           <img
             src={url}
             alt="Laxminarayan Sahu"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-[50%_30%] scale-110"
             loading="eager"
           />
         ) : (
