@@ -524,12 +524,14 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
     el.style.setProperty("--rx", `${-y * 6}deg`);
     el.style.setProperty("--gx", `${(x + 0.5) * 100}%`);
     el.style.setProperty("--gy", `${(y + 0.5) * 100}%`);
+    el.classList.add("is-tilting");
   };
   const onLeave = () => {
     const el = ref.current;
     if (!el) return;
     el.style.setProperty("--rx", `0deg`);
     el.style.setProperty("--ry", `0deg`);
+    el.classList.remove("is-tilting");
   };
 
   return (
