@@ -1,6 +1,6 @@
 import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
-import spritLogo from "@/assets/logo-sprit.png";
+import spritLogo from "@/assets/sprit-lab.svg.asset.json";
 
 export type Affiliation = {
   name: string;
@@ -27,9 +27,10 @@ export const affiliations: Affiliation[] = [
   },
   {
     name: "Sprit Lab",
-    role: "ML Intern",
+    role: "",
     period: "2026",
-    logo: spritLogo,
+    logo: spritLogo.url,
+    href: "https://www.linkedin.com/company/spritlab/",
   },
 ];
 
