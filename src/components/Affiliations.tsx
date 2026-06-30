@@ -30,7 +30,7 @@ export const affiliations: Affiliation[] = [
     role: "",
     period: "2026",
     logo: spritLogo.url,
-    href: "https://www.linkedin.com/company/spritlab/",
+    href: "https://www.linkedin.com/company/sprit-lab/",
   },
 ];
 
