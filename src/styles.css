@@ -201,13 +201,16 @@
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-/* Magnetic card tilt base */
+/* Magnetic card tilt base — only transform when actively tilting to avoid
+   permanent compositing layers (which cause blur on browser zoom). */
 .tilt-card {
-  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.2s ease;
+}
+.tilt-card.is-tilting {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
 }
 
 /* Timeline vertical line */
