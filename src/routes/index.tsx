@@ -15,7 +15,7 @@ import { Affiliations } from "@/components/Affiliations";
 import { NeuralBackground } from "@/components/NeuralBackground";
 import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
-import spritLogo from "@/assets/logo-sprit.png";
+import spritLogo from "@/assets/sprit-lab.svg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
