@@ -132,7 +132,7 @@ const timeline: TimelineEntry[] = [
   { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026" },
   { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
   { year: "2026", kind: "experience", title: "Sprit Lab — Founding Member", subtitle: "Founding member contributing to product & ML prototyping", logo: spritLogo.url },
-  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Summer research internship", logo: iitjLogo.url },
+  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing", logo: iitjLogo.url },
   { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka", logo: nitkLogo.url },
 ];
 
@@ -452,6 +452,10 @@ function Portfolio() {
               <InfoCard icon={<Sparkles className="h-5 w-5 text-primary" />} title="Experience">
                 <p className="font-medium">Scaler — AI Training (Freelance)</p>
                 <p className="text-sm text-muted-foreground">Generated structured training data to enhance model alignment & reliability.</p>
+              </InfoCard>
+              <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Research">
+                <p className="font-medium">Sprit Lab / IIT Jodhpur — Privacy-Preserving RAG</p>
+                <p className="text-sm text-muted-foreground">Research on privacy-preserving techniques in Retrieval-Augmented Generation under Dr. Susil Kumar Mohanty · May 2026 – ongoing.</p>
               </InfoCard>
             </div>
           </div>
