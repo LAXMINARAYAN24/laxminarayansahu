@@ -124,6 +124,31 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
           {error}
         </p>
       )}
+
+      {open && url && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Profile photo"
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200"
+        >
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setOpen(false); }}
+            aria-label="Close"
+            className="absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <img
+            src={url}
+            alt="Laxminarayan Sahu"
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[85vh] max-w-[85vw] rounded-2xl object-contain shadow-2xl ring-1 ring-white/20"
+          />
+        </div>
+      )}
     </div>
   );
 }
