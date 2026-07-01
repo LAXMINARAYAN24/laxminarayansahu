@@ -71,12 +71,17 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
 
   return (
     <div className="relative inline-block">
-      <div className={`relative ${sizeCls} overflow-hidden rounded-full border-2 border-border bg-card shadow-xl ring-4 ring-background`}>
+      <button
+        type="button"
+        onClick={() => url && setOpen(true)}
+        aria-label="Open profile photo"
+        className={`group relative ${sizeCls} overflow-hidden rounded-full border-2 border-border bg-card shadow-xl ring-4 ring-background transition-transform hover:scale-[1.02] focus:outline-none focus-visible:ring-primary`}
+      >
         {url ? (
           <img
             src={url}
             alt="Laxminarayan Sahu"
-            className="h-full w-full object-cover object-[50%_30%] scale-110"
+            className="h-full w-full object-cover object-[50%_30%] scale-110 transition-transform duration-500 group-hover:scale-[1.18]"
             loading="eager"
           />
         ) : (
@@ -89,7 +94,7 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
             <Loader2 className="h-6 w-6 animate-spin text-white" />
           </div>
         )}
-      </div>
+      </button>
 
       {isAdmin && (
         <>
