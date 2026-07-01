@@ -11,6 +11,7 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
   const [url, setUrl] = useState<string | null>(defaultPhoto.url);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const finalize = useServerFn(finalizeProfilePhoto);
   const fetchPhoto = useServerFn(getProfilePhoto);
