@@ -132,7 +132,7 @@ const timeline: TimelineEntry[] = [
   { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization — Jan – May 2026" },
   { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026" },
   { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
-  { year: "2026", kind: "experience", title: "Sprit Lab — Founding Member", subtitle: "Founding member contributing to product & ML prototyping", logo: spritLogo.url },
+  { year: "2026", kind: "experience", title: "Sprit Lab — Founding Member", subtitle: "Founding member contributing to product & ML prototyping", logo: spritLogoTimeline.url },
   { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing", logo: iitjLogo.url },
   { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka", logo: nitkLogo.url },
 ];
