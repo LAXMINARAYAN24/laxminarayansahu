@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Camera, Loader2, User } from "lucide-react";
+import { Camera, Loader2, User, X } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { finalizeProfilePhoto, getProfilePhoto } from "@/lib/profile.functions";
