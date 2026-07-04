@@ -461,11 +461,15 @@ function Portfolio() {
               </InfoCard>
               <InfoCard icon={<Sparkles className="h-5 w-5 text-primary" />} title="Experience">
                 <p className="font-medium">Scaler — AI Training (Freelance)</p>
-                <p className="text-sm text-muted-foreground">Generated structured training data to enhance model alignment & reliability.</p>
+                <p className="text-sm text-muted-foreground">Nov 2025 – Jan 2026 · AI model evaluation, data annotation, and structured dataset generation to improve model reliability.</p>
               </InfoCard>
               <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Research">
-                <p className="font-medium">Sprit Lab / IIT Jodhpur — Privacy-Preserving RAG</p>
-                <p className="text-sm text-muted-foreground">Research on privacy-preserving techniques in Retrieval-Augmented Generation under Dr. Susil Kumar Mohanty · May 2026 – ongoing.</p>
+                <p className="font-medium">SPRiT Lab, IIT Jodhpur — Summer Research Intern</p>
+                <p className="text-sm text-muted-foreground">May 2026 – Present · Under Dr. Susil Kumar Mohanty. Privacy-preserving distributed ML — Federated Learning, Split Learning, Local Differential Privacy, and communication-efficient distributed LLM training.</p>
+              </InfoCard>
+              <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Leadership">
+                <p className="font-medium">Vice President — Student Body</p>
+                <p className="text-sm text-muted-foreground">Oversaw events and student activities.</p>
               </InfoCard>
             </div>
           </div>
