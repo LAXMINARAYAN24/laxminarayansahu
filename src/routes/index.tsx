@@ -2,9 +2,24 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import {
-  Mail, Phone, Github, Linkedin, ExternalLink, ArrowUpRight,
-  Code2, Trophy, GraduationCap, Sparkles, Sun, Moon, Download,
-  X, Loader2, CheckCircle2, Calendar, GripVertical,
+  Mail,
+  Phone,
+  Github,
+  Linkedin,
+  ExternalLink,
+  ArrowUpRight,
+  Code2,
+  Trophy,
+  GraduationCap,
+  Sparkles,
+  Sun,
+  Moon,
+  Download,
+  X,
+  Loader2,
+  CheckCircle2,
+  Calendar,
+  GripVertical,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -17,14 +32,17 @@ import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/sprit-lab.svg.asset.json";
 import spritLogoTimeline from "@/assets/sprit-lab-new.svg.asset.json";
-import resumeAsset from "@/assets/resume.pdf.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
   head: () => ({
     meta: [
       { title: "Laxminarayan Sahu — Software Developer & AI Builder" },
-      { name: "description", content: "Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects." },
+      {
+        name: "description",
+        content:
+          "Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects.",
+      },
     ],
   }),
 });
@@ -44,8 +62,10 @@ const projects: Project[] = [
   {
     name: "AI Job Tracker",
     period: "Jan – Apr 2025",
-    blurb: "AI-driven career portal with Gemini-powered CV optimization, role recommendations, and end-to-end application tracking.",
-    details: "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
+    blurb:
+      "AI-driven career portal with Gemini-powered CV optimization, role recommendations, and end-to-end application tracking.",
+    details:
+      "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
     stack: ["Node.js", "Express", "MongoDB", "EJS", "Gemini API"],
     tag: "Full-Stack",
     links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
@@ -54,18 +74,24 @@ const projects: Project[] = [
   {
     name: "Music Style Classification",
     period: "Jul – Nov 2024",
-    blurb: "Audio genre classifier built on spectrogram features and deep learning, trained end-to-end on the GTZAN dataset.",
-    details: "Extracts MFCC and mel-spectrogram features from raw audio, trains a CNN to recognize musical genres, and compares it against classical ML baselines (SVM, Random Forest). Includes a clean training pipeline, confusion-matrix evaluation, and inference on user-supplied clips.",
+    blurb:
+      "Audio genre classifier built on spectrogram features and deep learning, trained end-to-end on the GTZAN dataset.",
+    details:
+      "Extracts MFCC and mel-spectrogram features from raw audio, trains a CNN to recognize musical genres, and compares it against classical ML baselines (SVM, Random Forest). Includes a clean training pipeline, confusion-matrix evaluation, and inference on user-supplied clips.",
     stack: ["Python", "TensorFlow", "Keras", "Librosa", "scikit-learn", "NumPy"],
     tag: "AI",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/MUSIC-STYLE-CLASSIFICATiION" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/LAXMINARAYAN24/MUSIC-STYLE-CLASSIFICATiION" },
+    ],
     accent: "from-fuchsia-500 via-pink-500 to-rose-500",
   },
   {
     name: "VOICEVIZ",
     period: "Jan – May 2026",
-    blurb: "AI SQL workspace with voice-to-query input, schema exploration, secure multi-user auth, and interactive chatbot visualizations.",
-    details: "VOICEVIZ turns natural speech into SQL. It listens to a question, infers the user's intent against the live database schema, generates a safe query, and renders the result as a chart or table. Multi-user auth and per-workspace RLS keep data isolated; an in-chat assistant explains queries and suggests follow-ups.",
+    blurb:
+      "AI SQL workspace with voice-to-query input, schema exploration, secure multi-user auth, and interactive chatbot visualizations.",
+    details:
+      "VOICEVIZ turns natural speech into SQL. It listens to a question, infers the user's intent against the live database schema, generates a safe query, and renders the result as a chart or table. Multi-user auth and per-workspace RLS keep data isolated; an in-chat assistant explains queries and suggests follow-ups.",
     stack: ["React", "TypeScript", "Vite", "Tailwind", "Supabase", "Web Speech API"],
     tag: "AI",
     links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
@@ -74,8 +100,10 @@ const projects: Project[] = [
   {
     name: "ABMHE Image Enhancement",
     period: "Jan – May 2026",
-    blurb: "Adaptive Block-based Multi-Histogram Equalization using overlapping sub-blocks and Hanning windows for smooth, artifact-free contrast.",
-    details: "ABMHE splits the image into overlapping blocks, computes a local histogram per block, equalizes adaptively, and blends back using Hanning windows to eliminate block boundaries. Beats classic CLAHE on low-light and high-dynamic-range medical samples in side-by-side tests.",
+    blurb:
+      "Adaptive Block-based Multi-Histogram Equalization using overlapping sub-blocks and Hanning windows for smooth, artifact-free contrast.",
+    details:
+      "ABMHE splits the image into overlapping blocks, computes a local histogram per block, equalizes adaptively, and blends back using Hanning windows to eliminate block boundaries. Beats classic CLAHE on low-light and high-dynamic-range medical samples in side-by-side tests.",
     stack: ["Python", "PyTorch", "OpenCV", "NumPy"],
     tag: "Vision",
     links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
@@ -84,8 +112,10 @@ const projects: Project[] = [
   {
     name: "Steg-Drop",
     period: "Jan – May 2026",
-    blurb: "In-memory steganography tool hiding data in textured regions via Canny edges, secured with AES-256-GCM and PBKDF2.",
-    details: "Steg-Drop never touches disk. Files are encrypted with AES-256-GCM (PBKDF2 key derivation), then embedded into high-texture regions of a cover image — picked via Canny edge density — making detection by statistical steganalysis significantly harder than uniform LSB.",
+    blurb:
+      "In-memory steganography tool hiding data in textured regions via Canny edges, secured with AES-256-GCM and PBKDF2.",
+    details:
+      "Steg-Drop never touches disk. Files are encrypted with AES-256-GCM (PBKDF2 key derivation), then embedded into high-texture regions of a cover image — picked via Canny edge density — making detection by statistical steganalysis significantly harder than uniform LSB.",
     stack: ["Python", "FastAPI", "OpenCV", "pycryptodome"],
     tag: "Security",
     links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
@@ -134,17 +164,77 @@ type TimelineEntry = {
 };
 
 const timeline: TimelineEntry[] = [
-  { year: "2023", kind: "achievement", title: "JEE Main 2023", subtitle: "All India Rank 5427 among 1.2M+ candidates" },
-  { year: "2023", kind: "education", title: "Joined NIT Karnataka", subtitle: "B.Tech, Information Technology — Aug 2023", logo: nitkLogo.url },
-  { year: "2024", kind: "project", title: "Music Style Classification", subtitle: "CNN-based audio genre classifier — Jul – Nov 2024" },
-  { year: "2025", kind: "project", title: "AI Job Tracker", subtitle: "Gemini-powered CV optimization & application tracker — Jan – Apr 2025" },
-  { year: "2026", kind: "project", title: "VOICEVIZ", subtitle: "Voice-to-SQL workspace with visualizations — Jan – May 2026" },
-  { year: "2026", kind: "project", title: "ABMHE Image Enhancement", subtitle: "Adaptive multi-histogram equalization — Jan – May 2026" },
-  { year: "2026", kind: "project", title: "Steg-Drop", subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026" },
-  { year: "2026", kind: "experience", title: "Scaler — AI Training (Freelance)", subtitle: "Structured training data for model alignment" },
-  { year: "2026", kind: "experience", title: "Sprit Lab — Founding Member", subtitle: "Founding member contributing to product & ML prototyping", logo: spritLogoTimeline.url },
-  { year: "2026", kind: "experience", title: "IIT Jodhpur — Research Intern", subtitle: "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing", logo: iitjLogo.url },
-  { year: "2027", kind: "education", title: "Graduating", subtitle: "B.Tech IT — NIT Karnataka", logo: nitkLogo.url },
+  {
+    year: "2023",
+    kind: "achievement",
+    title: "JEE Main 2023",
+    subtitle: "All India Rank 5427 among 1.2M+ candidates",
+  },
+  {
+    year: "2023",
+    kind: "education",
+    title: "Joined NIT Karnataka",
+    subtitle: "B.Tech, Information Technology — Aug 2023",
+    logo: nitkLogo.url,
+  },
+  {
+    year: "2024",
+    kind: "project",
+    title: "Music Style Classification",
+    subtitle: "CNN-based audio genre classifier — Jul – Nov 2024",
+  },
+  {
+    year: "2025",
+    kind: "project",
+    title: "AI Job Tracker",
+    subtitle: "Gemini-powered CV optimization & application tracker — Jan – Apr 2025",
+  },
+  {
+    year: "2026",
+    kind: "project",
+    title: "VOICEVIZ",
+    subtitle: "Voice-to-SQL workspace with visualizations — Jan – May 2026",
+  },
+  {
+    year: "2026",
+    kind: "project",
+    title: "ABMHE Image Enhancement",
+    subtitle: "Adaptive multi-histogram equalization — Jan – May 2026",
+  },
+  {
+    year: "2026",
+    kind: "project",
+    title: "Steg-Drop",
+    subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026",
+  },
+  {
+    year: "2026",
+    kind: "experience",
+    title: "Scaler — AI Training (Freelance)",
+    subtitle: "Structured training data for model alignment",
+  },
+  {
+    year: "2026",
+    kind: "experience",
+    title: "Sprit Lab — Founding Member",
+    subtitle: "Founding member contributing to product & ML prototyping",
+    logo: spritLogoTimeline.url,
+  },
+  {
+    year: "2026",
+    kind: "experience",
+    title: "IIT Jodhpur — Research Intern",
+    subtitle:
+      "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing",
+    logo: iitjLogo.url,
+  },
+  {
+    year: "2027",
+    kind: "education",
+    title: "Graduating",
+    subtitle: "B.Tech IT — NIT Karnataka",
+    logo: nitkLogo.url,
+  },
 ];
 
 function useGlobalTheme() {
@@ -237,287 +327,377 @@ function Portfolio() {
         }}
       />
       <div className="relative z-10">
-      <div
-        className="fixed left-0 top-0 z-50 h-0.5 origin-left"
-        style={{ width: `${progress}%`, background: "var(--gradient-primary)" }}
-      />
+        <div
+          className="fixed left-0 top-0 z-50 h-0.5 origin-left"
+          style={{ width: `${progress}%`, background: "var(--gradient-primary)" }}
+        />
 
-      {/* Nav */}
-      <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#top" className="text-sm font-semibold tracking-tight">
-            LS
-          </a>
-          <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
-            <li><a href="#work" className="hover:text-foreground transition-colors">Work</a></li>
-            <li><a href="#affiliations" className="hover:text-foreground transition-colors">Affiliations</a></li>
-            <li><a href="#timeline" className="hover:text-foreground transition-colors">Timeline</a></li>
-            <li><a href="#skills" className="hover:text-foreground transition-colors">Skills</a></li>
-            <li><a href="#about" className="hover:text-foreground transition-colors">About</a></li>
-            <li><a href="#contact" className="hover:text-foreground transition-colors">Contact</a></li>
-          </ul>
-          <div className="flex items-center gap-2">
-            <a
-              href={resumeAsset.url}
-              download
-              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
-            >
-              <Download className="h-3.5 w-3.5" /> Resume
+        {/* Nav */}
+        <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
+          <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+            <a href="#top" className="text-sm font-semibold tracking-tight">
+              LS
             </a>
-            <button
-              onClick={toggle}
-              aria-label="Toggle global theme"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 hover:border-primary/60 transition-colors"
-            >
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
-          </div>
-        </nav>
-      </header>
-
-      {/* Hero */}
-      <section
-        id="top"
-        className="relative overflow-hidden transition-colors duration-500"
-      >
-        <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            Available for internships & collaborations
-          </div>
-          <div className="mt-6 flex flex-wrap items-center gap-5 md:gap-7">
-            <ProfileAvatar size="inline" />
-            <h1 className="text-5xl font-semibold tracking-tight md:text-7xl lg:text-8xl">
-              Laxminarayan{" "}
-              <span
-                className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "var(--gradient-primary)" }}
+            <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
+              <li>
+                <a href="#work" className="hover:text-foreground transition-colors">
+                  Work
+                </a>
+              </li>
+              <li>
+                <a href="#affiliations" className="hover:text-foreground transition-colors">
+                  Affiliations
+                </a>
+              </li>
+              <li>
+                <a href="#timeline" className="hover:text-foreground transition-colors">
+                  Timeline
+                </a>
+              </li>
+              <li>
+                <a href="#skills" className="hover:text-foreground transition-colors">
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a href="#about" className="hover:text-foreground transition-colors">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-foreground transition-colors">
+                  Contact
+                </a>
+              </li>
+            </ul>
+            <div className="flex items-center gap-2">
+              <a
+                href={"/resume.pdf"}
+                download
+                className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
               >
-                Sahu
-              </span>
-            </h1>
-          </div>
-          <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            B.Tech Information Technology student at <span className="text-foreground">NIT Karnataka</span>,
-            building thoughtful software across AI, full-stack, and computer vision.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href="#work"
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]"
-              style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}
-            >
-              View selected work <ArrowUpRight className="h-4 w-4" />
-            </a>
-            <a
-              href={resumeAsset.url}
-              download
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
-            >
-              <Download className="h-4 w-4" /> Download résumé
-            </a>
-            <a
-              href="https://github.com/LAXMINARAYAN24"
-              target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
-            >
-              <Github className="h-4 w-4" /> GitHub
-            </a>
-          </div>
-
-          <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {[
-              { k: "5", v: "Projects shipped" },
-              { k: "5427", v: "JEE Main AIR" },
-              { k: "15+", v: "Technologies" },
-              { k: "2027", v: "Graduating" },
-            ].map((s) => (
-              <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
-                <div className="text-2xl font-semibold tracking-tight" style={{ backgroundImage: "var(--gradient-primary)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-                  {s.k}
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">{s.v}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Work */}
-      <section id="work" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-24 relative">
-
-          <div className="reveal mb-10 flex items-end justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">Selected Work</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Things I&apos;ve been building.</h2>
+                <Download className="h-3.5 w-3.5" /> Resume
+              </a>
+              <button
+                onClick={toggle}
+                aria-label="Toggle global theme"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 hover:border-primary/60 transition-colors"
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
             </div>
-            <Code2 className="hidden h-8 w-8 text-muted-foreground md:block" />
-          </div>
+          </nav>
+        </header>
 
-          <div className="reveal mb-8 flex flex-wrap gap-2">
-            {filters.map((f) => {
-              const active = filter === f;
-              return (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-all ${
-                    active
-                      ? "border-transparent text-primary-foreground"
-                      : "border-border bg-card/60 text-muted-foreground hover:text-foreground hover:border-primary/50"
-                  }`}
-                  style={active ? { background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" } : undefined}
+        {/* Hero */}
+        <section id="top" className="relative overflow-hidden transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              Available for internships & collaborations
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-5 md:gap-7">
+              <ProfileAvatar size="inline" />
+              <h1 className="text-5xl font-semibold tracking-tight md:text-7xl lg:text-8xl">
+                Laxminarayan{" "}
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{ backgroundImage: "var(--gradient-primary)" }}
                 >
-                  {f}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            {filtered.map((p) => (
-              <ProjectCard key={p.name} p={p} onOpen={() => setOpenProject(p)} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Affiliations */}
-      <section id="affiliations" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-24 relative">
-          <div className="reveal mb-10">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">Affiliations</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-              Where I&apos;ve studied & built.
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              The institutions and labs that have shaped my journey so far.
+                  Sahu
+                </span>
+              </h1>
+            </div>
+            <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
+              B.Tech Information Technology student at{" "}
+              <span className="text-foreground">NIT Karnataka</span>, building thoughtful software
+              across AI, full-stack, and computer vision.
             </p>
-          </div>
-          <Affiliations />
-        </div>
-      </section>
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              <a
+                href="#work"
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]"
+                style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}
+              >
+                View selected work <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/resume.pdf"
+                download
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
+              >
+                <Download className="h-4 w-4" /> Download résumé
+              </a>
+              <a
+                href="https://github.com/LAXMINARAYAN24"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
+              >
+                <Github className="h-4 w-4" /> GitHub
+              </a>
+            </div>
 
-
-      {/* Timeline */}
-      <section id="timeline" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-24 relative">
-
-          <div className="reveal mb-12">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">Journey</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">A timeline of milestones.</h2>
-          </div>
-          <Timeline entries={timeline} />
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section id="skills" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-24 relative">
-
-          <div className="reveal">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">Toolkit</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Technologies I work with.</h2>
-          </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {Object.entries(skills).map(([group, items]) => (
-              <div key={group} className="reveal rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40" style={{ boxShadow: "var(--shadow-card)" }}>
-                <p className="text-sm font-medium text-primary">{group}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {items.map((s) => (
-                    <span key={s} className="rounded-md bg-secondary px-2.5 py-1 text-xs text-secondary-foreground transition-transform hover:scale-105">{s}</span>
-                  ))}
+            <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {[
+                { k: "5", v: "Projects shipped" },
+                { k: "5427", v: "JEE Main AIR" },
+                { k: "15+", v: "Technologies" },
+                { k: "2027", v: "Graduating" },
+              ].map((s) => (
+                <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
+                  <div
+                    className="text-2xl font-semibold tracking-tight"
+                    style={{
+                      backgroundImage: "var(--gradient-primary)",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    }}
+                  >
+                    {s.k}
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground">{s.v}</div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* About */}
-      <section id="about" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-24 relative">
+        {/* Work */}
+        <section id="work" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="reveal mb-10 flex items-end justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-primary">Selected Work</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                  Things I&apos;ve been building.
+                </h2>
+              </div>
+              <Code2 className="hidden h-8 w-8 text-muted-foreground md:block" />
+            </div>
 
-          <div className="grid gap-12 md:grid-cols-2">
-            <div className="reveal">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">About</p>
+            <div className="reveal mb-8 flex flex-wrap gap-2">
+              {filters.map((f) => {
+                const active = filter === f;
+                return (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-all ${
+                      active
+                        ? "border-transparent text-primary-foreground"
+                        : "border-border bg-card/60 text-muted-foreground hover:text-foreground hover:border-primary/50"
+                    }`}
+                    style={
+                      active
+                        ? { background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }
+                        : undefined
+                    }
+                  >
+                    {f}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2">
+              {filtered.map((p) => (
+                <ProjectCard key={p.name} p={p} onOpen={() => setOpenProject(p)} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Affiliations */}
+        <section id="affiliations" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="reveal mb-10">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">Affiliations</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Curious engineer with a bias for shipping.
+                Where I&apos;ve studied & built.
               </h2>
-              <p className="mt-6 text-muted-foreground leading-relaxed">
-                I&apos;m an IT undergrad at NIT Karnataka exploring the intersection of AI,
-                systems, and beautiful interfaces. I enjoy turning research-flavored ideas
-                into things you can actually use — from image-processing pipelines to
-                voice-driven SQL tools.
+              <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+                The institutions and labs that have shaped my journey so far.
               </p>
             </div>
-            <div className="grid gap-4">
-              <InfoCard icon={<GraduationCap className="h-5 w-5 text-primary" />} title="Education">
-                <p className="font-medium">National Institute of Technology Karnataka, Surathkal</p>
-                <p className="text-sm text-muted-foreground">B.Tech, Information Technology · Aug 2023 – 2027</p>
-              </InfoCard>
-              <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Achievements">
-                <p className="text-sm">All India Rank <span className="font-semibold">5427 (General)</span> in JEE Main 2023 — among 1.2M+ candidates.</p>
-              </InfoCard>
-              <InfoCard icon={<Sparkles className="h-5 w-5 text-primary" />} title="Experience">
-                <p className="font-medium">Scaler — AI Training (Freelance)</p>
-                <p className="text-sm text-muted-foreground">Nov 2025 – Jan 2026 · AI model evaluation, data annotation, and structured dataset generation to improve model reliability.</p>
-              </InfoCard>
-              <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Research">
-                <p className="font-medium">SPRiT Lab, IIT Jodhpur — Summer Research Intern</p>
-                <p className="text-sm text-muted-foreground">May 2026 – Present · Under Dr. Susil Kumar Mohanty. Privacy-preserving distributed ML — Federated Learning, Split Learning, Local Differential Privacy, and communication-efficient distributed LLM training.</p>
-              </InfoCard>
-              <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Leadership">
-                <p className="font-medium">Vice President — Student Body</p>
-                <p className="text-sm text-muted-foreground">Oversaw events and student activities.</p>
-              </InfoCard>
-            </div>
+            <Affiliations />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact */}
-      <section id="contact" className="transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-6 py-32 relative">
+        {/* Timeline */}
+        <section id="timeline" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="reveal mb-12">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">Journey</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                A timeline of milestones.
+              </h2>
+            </div>
+            <Timeline entries={timeline} />
+          </div>
+        </section>
 
-          <div
-            className="reveal relative overflow-hidden rounded-3xl border border-border bg-card p-10 md:p-16"
-            style={{ boxShadow: "var(--shadow-card)" }}
-          >
-            <div className="pointer-events-none absolute inset-0 opacity-30" style={{ background: "var(--gradient-glow)" }} />
-            <div className="relative grid gap-10 md:grid-cols-2">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
-                <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-                  Let&apos;s build<br />something good.
-                </h2>
-                <div className="mt-8 flex flex-col gap-3">
-                  <ContactLink href="mailto:sahulucky2411@gmail.com" icon={<Mail className="h-4 w-4" />} label="sahulucky2411@gmail.com" />
-                  <ContactLink href="tel:+919826557187" icon={<Phone className="h-4 w-4" />} label="+91 98265 57187" />
-                  <ContactLink href="https://github.com/LAXMINARAYAN24" icon={<Github className="h-4 w-4" />} label="GitHub" />
-                  <ContactLink href="https://linkedin.com/in/LAXMINARAYAN" icon={<Linkedin className="h-4 w-4" />} label="LinkedIn" />
+        {/* Skills */}
+        <section id="skills" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="reveal">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">Toolkit</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                Technologies I work with.
+              </h2>
+            </div>
+            <div className="mt-12 grid gap-5 md:grid-cols-3">
+              {Object.entries(skills).map(([group, items]) => (
+                <div
+                  key={group}
+                  className="reveal rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40"
+                  style={{ boxShadow: "var(--shadow-card)" }}
+                >
+                  <p className="text-sm font-medium text-primary">{group}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {items.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-md bg-secondary px-2.5 py-1 text-xs text-secondary-foreground transition-transform hover:scale-105"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <ContactForm />
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="border-t border-border/60 py-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-center px-6 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Laxminarayan Sahu — Crafted with care</span>
-        </div>
-      </footer>
+        {/* About */}
+        <section id="about" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="grid gap-12 md:grid-cols-2">
+              <div className="reveal">
+                <p className="text-xs uppercase tracking-[0.2em] text-primary">About</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                  Curious engineer with a bias for shipping.
+                </h2>
+                <p className="mt-6 text-muted-foreground leading-relaxed">
+                  I&apos;m an IT undergrad at NIT Karnataka exploring the intersection of AI,
+                  systems, and beautiful interfaces. I enjoy turning research-flavored ideas into
+                  things you can actually use — from image-processing pipelines to voice-driven SQL
+                  tools.
+                </p>
+              </div>
+              <div className="grid gap-4">
+                <InfoCard
+                  icon={<GraduationCap className="h-5 w-5 text-primary" />}
+                  title="Education"
+                >
+                  <p className="font-medium">
+                    National Institute of Technology Karnataka, Surathkal
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    B.Tech, Information Technology · Aug 2023 – 2027
+                  </p>
+                </InfoCard>
+                <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Achievements">
+                  <p className="text-sm">
+                    All India Rank <span className="font-semibold">5427 (General)</span> in JEE Main
+                    2023 — among 1.2M+ candidates.
+                  </p>
+                </InfoCard>
+                <InfoCard icon={<Sparkles className="h-5 w-5 text-primary" />} title="Experience">
+                  <p className="font-medium">Scaler — AI Training (Freelance)</p>
+                  <p className="text-sm text-muted-foreground">
+                    Nov 2025 – Jan 2026 · AI model evaluation, data annotation, and structured
+                    dataset generation to improve model reliability.
+                  </p>
+                </InfoCard>
+                <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Research">
+                  <p className="font-medium">SPRiT Lab, IIT Jodhpur — Summer Research Intern</p>
+                  <p className="text-sm text-muted-foreground">
+                    May 2026 – Present · Under Dr. Susil Kumar Mohanty. Privacy-preserving
+                    distributed ML — Federated Learning, Split Learning, Local Differential Privacy,
+                    and communication-efficient distributed LLM training.
+                  </p>
+                </InfoCard>
+                <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Leadership">
+                  <p className="font-medium">Vice President — Student Body</p>
+                  <p className="text-sm text-muted-foreground">
+                    Oversaw events and student activities.
+                  </p>
+                </InfoCard>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+        {/* Contact */}
+        <section id="contact" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-32 relative">
+            <div
+              className="reveal relative overflow-hidden rounded-3xl border border-border bg-card p-10 md:p-16"
+              style={{ boxShadow: "var(--shadow-card)" }}
+            >
+              <div
+                className="pointer-events-none absolute inset-0 opacity-30"
+                style={{ background: "var(--gradient-glow)" }}
+              />
+              <div className="relative grid gap-10 md:grid-cols-2">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
+                  <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
+                    Let&apos;s build
+                    <br />
+                    something good.
+                  </h2>
+                  <div className="mt-8 flex flex-col gap-3">
+                    <ContactLink
+                      href="mailto:sahulucky2411@gmail.com"
+                      icon={<Mail className="h-4 w-4" />}
+                      label="sahulucky2411@gmail.com"
+                    />
+                    <ContactLink
+                      href="tel:+919826557187"
+                      icon={<Phone className="h-4 w-4" />}
+                      label="+91 98265 57187"
+                    />
+                    <ContactLink
+                      href="https://github.com/LAXMINARAYAN24"
+                      icon={<Github className="h-4 w-4" />}
+                      label="GitHub"
+                    />
+                    <ContactLink
+                      href="https://linkedin.com/in/LAXMINARAYAN"
+                      icon={<Linkedin className="h-4 w-4" />}
+                      label="LinkedIn"
+                    />
+                  </div>
+                </div>
+                <ContactForm />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="border-t border-border/60 py-8">
+          <div className="mx-auto flex max-w-6xl items-center justify-center px-6 text-xs text-muted-foreground">
+            <span>© {new Date().getFullYear()} Laxminarayan Sahu — Crafted with care</span>
+          </div>
+        </footer>
+
+        <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
       </div>
     </main>
   );
 }
 
-function SectionThemeToggle({ theme, onToggle }: { theme: "light" | "dark"; onToggle: () => void }) {
+function SectionThemeToggle({
+  theme,
+  onToggle,
+}: {
+  theme: "light" | "dark";
+  onToggle: () => void;
+}) {
   return (
     <button
       onClick={onToggle}
@@ -584,12 +764,17 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
       <p className="relative mt-5 text-sm leading-relaxed text-muted-foreground">{p.blurb}</p>
       <div className="relative mt-6 flex flex-wrap gap-2">
         {p.stack.slice(0, 4).map((s) => (
-          <span key={s} className="rounded-full border border-border bg-background/60 px-2.5 py-1 text-[11px] text-muted-foreground">
+          <span
+            key={s}
+            className="rounded-full border border-border bg-background/60 px-2.5 py-1 text-[11px] text-muted-foreground"
+          >
             {s}
           </span>
         ))}
         {p.stack.length > 4 && (
-          <span className="rounded-full px-2.5 py-1 text-[11px] text-primary">+{p.stack.length - 4} more</span>
+          <span className="rounded-full px-2.5 py-1 text-[11px] text-primary">
+            +{p.stack.length - 4} more
+          </span>
         )}
       </div>
     </button>
@@ -601,9 +786,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
     <Dialog open={!!project} onOpenChange={(o) => !o && onClose()}>
       <DialogPortal>
         <DialogOverlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <DialogContent
-          className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-0 border border-border bg-card p-0 shadow-lg rounded-2xl overflow-hidden max-h-[90vh] sm:rounded-2xl"
-        >
+        <DialogContent className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-0 border border-border bg-card p-0 shadow-lg rounded-2xl overflow-hidden max-h-[90vh] sm:rounded-2xl">
           {project && (
             <div className="flex flex-col max-h-[90vh]">
               {/* Hero screenshot placeholder */}
@@ -611,8 +794,12 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.25),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.25),transparent_40%)]" />
                 <div className="absolute inset-0 flex items-end justify-between p-6">
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/80">{project.tag}</div>
-                    <div className="mt-1 text-3xl font-semibold tracking-tight text-white drop-shadow-sm">{project.name}</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/80">
+                      {project.tag}
+                    </div>
+                    <div className="mt-1 text-3xl font-semibold tracking-tight text-white drop-shadow-sm">
+                      {project.name}
+                    </div>
                     <div className="text-xs text-white/80">{project.period}</div>
                   </div>
                   <button
@@ -632,7 +819,10 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                   <p className="text-xs uppercase tracking-[0.2em] text-primary">Tech Stack</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {project.stack.map((s) => (
-                      <span key={s} className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground">
+                      <span
+                        key={s}
+                        className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground"
+                      >
                         {s}
                       </span>
                     ))}
@@ -648,7 +838,10 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-primary-foreground"
-                        style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}
+                        style={{
+                          background: "var(--gradient-primary)",
+                          boxShadow: "var(--shadow-glow)",
+                        }}
                       >
                         <ExternalLink className="h-4 w-4" /> {l.label}
                       </a>
@@ -699,10 +892,7 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
   const persist = (next: TimelineEntry[]) => {
     setOrdered(next);
     try {
-      localStorage.setItem(
-        TIMELINE_ORDER_KEY,
-        JSON.stringify(next.map(entryId)),
-      );
+      localStorage.setItem(TIMELINE_ORDER_KEY, JSON.stringify(next.map(entryId)));
     } catch {
       /* ignore */
     }
@@ -754,7 +944,11 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
                   ? "border-transparent text-primary-foreground"
                   : "border-border bg-card/60 text-muted-foreground hover:text-foreground hover:border-primary/50"
               }`}
-              style={active ? { background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" } : undefined}
+              style={
+                active
+                  ? { background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }
+                  : undefined
+              }
             >
               {y}
             </button>
@@ -792,13 +986,19 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
                   onDrop(id);
                 }}
               >
-                <div className={`md:flex ${left ? "md:flex-row" : "md:flex-row-reverse"} items-start gap-6`}>
+                <div
+                  className={`md:flex ${left ? "md:flex-row" : "md:flex-row-reverse"} items-start gap-6`}
+                >
                   <div className="hidden md:block md:w-1/2" />
                   <div className="relative md:w-1/2">
-                    <div className={`absolute left-4 md:left-auto ${left ? "md:-left-3" : "md:-right-3"} top-3 h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br ${kindColor[e.kind]} shadow-lg`} />
+                    <div
+                      className={`absolute left-4 md:left-auto ${left ? "md:-left-3" : "md:-right-3"} top-3 h-6 w-6 rounded-full border-2 border-background bg-gradient-to-br ${kindColor[e.kind]} shadow-lg`}
+                    />
                     <div
                       className={`ml-12 md:ml-0 rounded-2xl border bg-card p-5 transition-all hover:-translate-y-0.5 ${
-                        isOver ? "border-primary ring-2 ring-primary/40" : "border-border hover:border-primary/40"
+                        isOver
+                          ? "border-primary ring-2 ring-primary/40"
+                          : "border-border hover:border-primary/40"
                       }`}
                       style={{ boxShadow: "var(--shadow-card)" }}
                     >
@@ -824,7 +1024,12 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
                         )}
                         {e.logo && (
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 p-1">
-                            <img src={e.logo} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
+                            <img
+                              src={e.logo}
+                              alt=""
+                              loading="lazy"
+                              className="max-h-full max-w-full object-contain"
+                            />
                           </div>
                         )}
                         <div className="min-w-0 flex-1">
@@ -854,7 +1059,11 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
   email: z.string().trim().email("Please enter a valid email").max(255),
-  message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000, "Message is too long"),
+  message: z
+    .string()
+    .trim()
+    .min(10, "Message must be at least 10 characters")
+    .max(2000, "Message is too long"),
 });
 
 function ContactForm() {
@@ -889,7 +1098,11 @@ function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-border bg-background/40 p-6 backdrop-blur" noValidate>
+    <form
+      onSubmit={onSubmit}
+      className="rounded-2xl border border-border bg-background/40 p-6 backdrop-blur"
+      noValidate
+    >
       <p className="text-xs uppercase tracking-[0.2em] text-primary">Send a message</p>
       <div className="mt-4 space-y-3">
         <div>
@@ -947,25 +1160,49 @@ function ContactForm() {
         className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
         style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}
       >
-        {status === "submitting" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+        {status === "submitting" ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <Mail className="h-4 w-4" />
+        )}
         {status === "submitting" ? "Sending…" : "Send message"}
       </button>
     </form>
   );
 }
 
-function InfoCard({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
+function InfoCard({
+  icon,
+  title,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="reveal rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-1 hover:border-primary/40" style={{ boxShadow: "var(--shadow-card)" }}>
+    <div
+      className="reveal rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-1 hover:border-primary/40"
+      style={{ boxShadow: "var(--shadow-card)" }}
+    >
       <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
-        {icon}<span>{title}</span>
+        {icon}
+        <span>{title}</span>
       </div>
       <div className="mt-3 space-y-1">{children}</div>
     </div>
   );
 }
 
-function ContactLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
+function ContactLink({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+}) {
   return (
     <a
       href={href}
