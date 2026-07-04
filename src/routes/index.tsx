@@ -93,23 +93,32 @@ const projects: Project[] = [
 ];
 
 const skills = {
-  Languages: ["C/C++", "Python", "JavaScript", "TypeScript", "HTML", "CSS"],
-  Frameworks: ["React", "Node.js", "Express.js", "MongoDB", "Supabase", "Tailwind CSS"],
+  Languages: ["C++", "Python", "JavaScript", "TypeScript", "SQL", "HTML", "CSS"],
+  "Core CS": [
+    "Data Structures & Algorithms",
+    "OOP",
+    "Operating Systems",
+    "DBMS",
+    "Computer Networks",
+  ],
+  "Frameworks & Web": ["React", "Node.js", "Express.js", "FastAPI", "Tailwind CSS"],
+  Databases: ["PostgreSQL", "MongoDB", "Supabase"],
   "AI / ML": [
-    "Differential Privacy",
+    "PyTorch",
+    "OpenCV",
+    "Deep Learning",
+    "Computer Vision",
     "Federated Learning",
     "Split Learning",
-    "LoRA",
-    "Distributed LLM",
+    "Local Differential Privacy",
     "RAG",
+    "Distributed LLM",
     "TensorFlow",
     "Keras",
-    "PyTorch",
-    "Librosa",
     "scikit-learn",
-    "OpenCV",
+    "Librosa",
   ],
-  Tools: ["Git", "GitHub", "VS Code"],
+  Tools: ["Git", "GitHub", "Linux", "VS Code"],
 };
 
 const filters = ["All", "AI", "Full-Stack", "Vision", "Security"] as const;
