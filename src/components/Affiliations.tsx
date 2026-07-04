@@ -1,6 +1,6 @@
-import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
-import iitjLogo from "@/assets/logo-iitj.png.asset.json";
-import spritLogo from "@/assets/sprit-lab.svg.asset.json";
+import nitkLogo from "@/assets/logo-nitk.webp";
+import iitjLogo from "@/assets/logo-iitj.png";
+import spritLogo from "@/assets/sprit-lab.svg";
 
 export type Affiliation = {
   name: string;
@@ -15,21 +15,21 @@ export const affiliations: Affiliation[] = [
     name: "NIT Karnataka",
     role: "B.Tech, Information Technology",
     period: "Aug 2023 – 2027",
-    logo: nitkLogo.url,
+    logo: nitkLogo,
     href: "https://www.nitk.ac.in/",
   },
   {
     name: "IIT Jodhpur",
     role: "Research Intern",
     period: "Summer 2026",
-    logo: iitjLogo.url,
+    logo: iitjLogo,
     href: "https://www.iitj.ac.in/",
   },
   {
     name: "Sprit Lab",
     role: "",
     period: "2026",
-    logo: spritLogo.url,
+    logo: spritLogo,
     href: "https://www.linkedin.com/company/sprit-lab/",
   },
 ];

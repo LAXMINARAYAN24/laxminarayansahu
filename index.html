@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laxminarayan Sahu — Software Developer &amp; AI Builder</title>
+    <meta
+      name="description"
+      content="Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects."
+    />
+    <meta property="og:title" content="Laxminarayan Sahu — Software Developer & AI Builder" />
+    <meta
+      property="og:description"
+      content="Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Laxminarayan Sahu — Software Developer & AI Builder" />
+    <meta
+      name="twitter:description"
+      content="Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects."
+    />
+    <!-- Apply saved/OS theme before paint to avoid a light-mode flash -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t) {
+            t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          }
+          if (t === "dark") {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import {
@@ -28,24 +27,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { Affiliations } from "@/components/Affiliations";
 import { NeuralBackground } from "@/components/NeuralBackground";
-import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
-import iitjLogo from "@/assets/logo-iitj.png.asset.json";
-import spritLogo from "@/assets/sprit-lab.svg.asset.json";
-import spritLogoTimeline from "@/assets/sprit-lab-new.svg.asset.json";
-
-export const Route = createFileRoute("/")({
-  component: Portfolio,
-  head: () => ({
-    meta: [
-      { title: "Laxminarayan Sahu — Software Developer & AI Builder" },
-      {
-        name: "description",
-        content:
-          "Interactive portfolio of Laxminarayan Sahu, B.Tech IT student at NIT Karnataka building AI, full-stack and computer vision projects.",
-      },
-    ],
-  }),
-});
+// Logo images temporarily disabled — re-enable once assets are added to src/assets
+import nitkLogo from "@/assets/logo-nitk.webp";
+import iitjLogo from "@/assets/logo-iitj.png";
+import spritLogoTimeline from "@/assets/sprit-lab-new.svg";
 
 type Project = {
   name: string;
@@ -175,7 +160,7 @@ const timeline: TimelineEntry[] = [
     kind: "education",
     title: "Joined NIT Karnataka",
     subtitle: "B.Tech, Information Technology — Aug 2023",
-    logo: nitkLogo.url,
+    logo: nitkLogo,
   },
   {
     year: "2024",
@@ -218,7 +203,7 @@ const timeline: TimelineEntry[] = [
     kind: "experience",
     title: "Sprit Lab — Founding Member",
     subtitle: "Founding member contributing to product & ML prototyping",
-    logo: spritLogoTimeline.url,
+    logo: spritLogoTimeline,
   },
   {
     year: "2026",
@@ -226,14 +211,14 @@ const timeline: TimelineEntry[] = [
     title: "IIT Jodhpur — Research Intern",
     subtitle:
       "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing",
-    logo: iitjLogo.url,
+    // logo: iitjLogo,
   },
   {
     year: "2027",
     kind: "education",
     title: "Graduating",
     subtitle: "B.Tech IT — NIT Karnataka",
-    logo: nitkLogo.url,
+    logo: nitkLogo,
   },
 ];
 
@@ -289,7 +274,7 @@ function useScrollProgress() {
 
 // per-section theme removed; only the global theme toggle is used now
 
-function Portfolio() {
+export default function Portfolio() {
   const { theme, toggle } = useGlobalTheme();
   const progress = useScrollProgress();
   const [filter, setFilter] = useState<Filter>("All");
