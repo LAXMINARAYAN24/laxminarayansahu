@@ -17,6 +17,7 @@ import nitkLogo from "@/assets/logo-nitk.webp.asset.json";
 import iitjLogo from "@/assets/logo-iitj.png.asset.json";
 import spritLogo from "@/assets/sprit-lab.svg.asset.json";
 import spritLogoTimeline from "@/assets/sprit-lab-new.svg.asset.json";
+import resumeAsset from "@/assets/resume.pdf.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
@@ -257,7 +258,7 @@ function Portfolio() {
           </ul>
           <div className="flex items-center gap-2">
             <a
-              href="/resume.pdf"
+              href={resumeAsset.url}
               download
               className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
             >
@@ -309,7 +310,7 @@ function Portfolio() {
               View selected work <ArrowUpRight className="h-4 w-4" />
             </a>
             <a
-              href="/resume.pdf"
+              href={resumeAsset.url}
               download
               className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
             >
