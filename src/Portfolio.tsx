@@ -32,6 +32,9 @@ import nitkLogo from "@/assets/logo-nitk.webp";
 import iitjLogo from "@/assets/logo-iitj.png";
 import spritLogoTimeline from "@/assets/sprit-lab-new.svg";
 
+// Injected at build time by Vite (see vite.config.ts) — e.g. "7 Jul 2026"
+declare const __BUILD_DATE__: string;
+
 type Project = {
   name: string;
   period: string;
@@ -320,8 +323,11 @@ export default function Portfolio() {
         {/* Nav */}
         <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <a href="#top" className="text-sm font-semibold tracking-tight">
+            <a href="#top" className="flex items-baseline gap-2 text-sm font-semibold tracking-tight">
               LS
+              <span className="hidden font-normal text-xs text-muted-foreground sm:inline">
+                · Updated {__BUILD_DATE__}
+              </span>
             </a>
             <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
               <li>
