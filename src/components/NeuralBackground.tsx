@@ -29,6 +29,7 @@ export function NeuralBackground() {
       return v || "oklch(0.6 0.16 200)";
     };
 
+
     // Keep node positions in normalized [0,1] space so they stay centered
     // and proportionally placed across any viewport size.
     type Node = { nx: number; ny: number; x: number; y: number; vx: number; vy: number; r: number };
@@ -114,14 +115,12 @@ export function NeuralBackground() {
     const EDGE_SPEED = 0.012; // same for fade-in and fade-out
     const keyOf = (i: number, j: number) => i * 4096 + j;
 
-
     const draw = () => {
       // Bright neural palette — vivid blue + orange that read well on both themes.
-      const BLUE = "59, 130, 246";    // #3b82f6
-      const ORANGE = "249, 115, 22";  // #f97316
-      const CYAN = "34, 211, 238";    // #22d3ee
-      const isLight =
-        !document.documentElement.classList.contains("dark");
+      const BLUE = "59, 130, 246"; // #3b82f6
+      const ORANGE = "249, 115, 22"; // #f97316
+      const CYAN = "34, 211, 238"; // #22d3ee
+      const isLight = !document.documentElement.classList.contains("dark");
       // Boost alpha and node fill in light mode so links aren't washed out.
       const ALPHA_MUL = isLight ? 2.2 : 1.4;
       const NODE_ALPHA = isLight ? 0.95 : 0.85;
@@ -188,8 +187,13 @@ export function NeuralBackground() {
           let p = edgePhase.get(k)!;
           let dir = edgeDir.get(k)!;
           p += EDGE_SPEED * dir;
-          if (p >= 1) { p = 1; dir = -1; }
-          else if (p <= -1) { p = -1; dir = 1; }
+          if (p >= 1) {
+            p = 1;
+            dir = -1;
+          } else if (p <= -1) {
+            p = -1;
+            dir = 1;
+          }
           edgePhase.set(k, p);
           edgeDir.set(k, dir);
 
@@ -219,7 +223,10 @@ export function NeuralBackground() {
 
       // GC edges no longer in proximity
       for (const k of edgePhase.keys()) {
-        if (!seen.has(k)) { edgePhase.delete(k); edgeDir.delete(k); }
+        if (!seen.has(k)) {
+          edgePhase.delete(k);
+          edgeDir.delete(k);
+        }
       }
 
       // nodes — alternate blue / orange for visual richness
@@ -237,13 +244,11 @@ export function NeuralBackground() {
         ctx.shadowBlur = 0;
       }
 
-
       // spawn pulses occasionally
       if (edges.length && Math.random() < 0.08 && pulses.length < 18) {
         const e = edges[Math.floor(Math.random() * edges.length)];
         pulses.push({ a: e.a, b: e.b, t: 0, speed: 0.008 + Math.random() * 0.012 });
       }
-
 
       // draw + advance pulses
       pulses = pulses.filter((p) => {
@@ -291,10 +296,7 @@ export function NeuralBackground() {
   }, []);
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-    >
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* soft theme-aware glow wash */}
       <div
         className="absolute inset-0"

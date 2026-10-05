@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
 import {
   Mail,
@@ -10,17 +10,15 @@ import {
   Code2,
   Trophy,
   GraduationCap,
-  Sparkles,
-  Sun,
+   Sun,
   Moon,
   Download,
-  X,
   Loader2,
   CheckCircle2,
   Calendar,
   GripVertical,
 } from "lucide-react";
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,8 +27,6 @@ import { Affiliations } from "@/components/Affiliations";
 import { NeuralBackground } from "@/components/NeuralBackground";
 // Logo images temporarily disabled — re-enable once assets are added to src/assets
 import nitkLogo from "@/assets/logo-nitk.webp";
-import iitjLogo from "@/assets/logo-iitj.png";
-import spritLogoTimeline from "@/assets/sprit-lab-new.svg";
 
 // Injected at build time by Vite (see vite.config.ts) — e.g. "7 Jul 2026"
 declare const __BUILD_DATE__: string;
@@ -48,6 +44,48 @@ type Project = {
 
 const projects: Project[] = [
   {
+    name: "Migration Risk Analytics",
+    period: "Aug – Sep 2026",
+    blurb:
+      "Population migration analytics connecting Census data, machine learning, and an interactive React dashboard.",
+    details:
+      "IBM SkillsBuild capstone combining CPS microdata with ten years of Census tables. A pandas pipeline handles cleaning and demographic features; class-balanced logistic regression is evaluated with a temporal split, precision, recall, F1, and ROC-AUC. CSV and JSON exports power demographic and risk summaries in React.",
+    stack: ["Python", "pandas", "scikit-learn", "React", "Matplotlib"],
+    tag: "AI",
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/LAXMINARAYAN24/IBM-SkillsBuild-Migration-Risk-Analytics",
+      },
+    ],
+    accent: "from-blue-600 via-cyan-500 to-teal-500",
+  },
+  {
+    name: "Omniac RAG",
+    period: "2026",
+    blurb:
+      "A local AI assistant combining hybrid retrieval, claim verification, and citation-audited answers.",
+    details:
+      "A React interface and Node.js gateway connect to a Python retrieval and verification pipeline. BM25 and dense retrieval are combined with reciprocal rank fusion and neural reranking. Ollama powers generation, with claim checks, graph consensus, citation auditing, and abstention when evidence is insufficient.",
+    stack: ["Python", "React", "Node.js", "Ollama", "BM25", "RAG"],
+    tag: "AI",
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/OmaniacRAG" }],
+    accent: "from-violet-600 via-indigo-500 to-blue-500",
+  },
+  {
+    name: "Medical Image Denoising",
+    period: "2026",
+    blurb: "A PyTorch pipeline pairing a U-Net-style denoising autoencoder with a CNN classifier.",
+    details:
+      "A two-stage research pipeline for image denoising and Normal / Abnormal classification, including synthetic medical-like data for testing. Provides training, inference, and image-quality evaluation with PSNR, SSIM, MSE, and MAE. This is an experimental project, without clinical validation claims.",
+    stack: ["Python", "PyTorch", "OpenCV", "NumPy", "Matplotlib"],
+    tag: "Vision",
+    links: [
+      { label: "GitHub", href: "https://github.com/LAXMINARAYAN24/MedicalImageDenoisingPipeline" },
+    ],
+    accent: "from-teal-600 via-emerald-500 to-cyan-500",
+  },
+  {
     name: "AI Job Tracker",
     period: "Jan – Apr 2025",
     blurb:
@@ -56,7 +94,7 @@ const projects: Project[] = [
       "An end-to-end job hunt cockpit. Uploads parse résumés with Gemini, score them against job descriptions, suggest rewrites, and recommend matching roles. A Kanban board tracks every application from saved to offer with reminders and notes.",
     stack: ["Node.js", "Express", "MongoDB", "EJS", "Gemini API"],
     tag: "Full-Stack",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/JobTrack-AI" }],
     accent: "from-violet-500 via-purple-500 to-indigo-500",
   },
   {
@@ -75,14 +113,14 @@ const projects: Project[] = [
   },
   {
     name: "VOICEVIZ",
-    period: "Jan – May 2026",
+    period: "Feb – Mar 2026",
     blurb:
       "AI SQL workspace with voice-to-query input, schema exploration, secure multi-user auth, and interactive chatbot visualizations.",
     details:
       "VOICEVIZ turns natural speech into SQL. It listens to a question, infers the user's intent against the live database schema, generates a safe query, and renders the result as a chart or table. Multi-user auth and per-workspace RLS keep data isolated; an in-chat assistant explains queries and suggests follow-ups.",
     stack: ["React", "TypeScript", "Vite", "Tailwind", "Supabase", "Web Speech API"],
     tag: "AI",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/VoiceViz" }],
     accent: "from-cyan-500 via-sky-500 to-fuchsia-500",
   },
   {
@@ -91,53 +129,55 @@ const projects: Project[] = [
     blurb:
       "Adaptive Block-based Multi-Histogram Equalization using overlapping sub-blocks and Hanning windows for smooth, artifact-free contrast.",
     details:
-      "ABMHE splits the image into overlapping blocks, computes a local histogram per block, equalizes adaptively, and blends back using Hanning windows to eliminate block boundaries. Beats classic CLAHE on low-light and high-dynamic-range medical samples in side-by-side tests.",
+      "ABMHE splits the image into overlapping blocks, computes a local histogram per block, equalizes adaptively, and blends back using Hanning windows to eliminate block boundaries. Includes comparisons with classic histogram equalization methods.",
     stack: ["Python", "PyTorch", "OpenCV", "NumPy"],
     tag: "Vision",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/ABMHE" }],
     accent: "from-emerald-500 via-teal-500 to-cyan-500",
   },
   {
     name: "Steg-Drop",
-    period: "Jan – May 2026",
+    period: "Mar – Apr 2026",
     blurb:
       "In-memory steganography tool hiding data in textured regions via Canny edges, secured with AES-256-GCM and PBKDF2.",
     details:
-      "Steg-Drop never touches disk. Files are encrypted with AES-256-GCM (PBKDF2 key derivation), then embedded into high-texture regions of a cover image — picked via Canny edge density — making detection by statistical steganalysis significantly harder than uniform LSB.",
+      "Steg-Drop never touches disk. Files are encrypted with AES-256-GCM (PBKDF2 key derivation), then embedded into high-texture regions of a cover image — picked via Canny edge density — with payload capacity checks and authentication-tag verification.",
     stack: ["Python", "FastAPI", "OpenCV", "pycryptodome"],
     tag: "Security",
-    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24" }],
+    links: [{ label: "GitHub", href: "https://github.com/LAXMINARAYAN24/Steg-Drop" }],
     accent: "from-rose-500 via-orange-500 to-amber-500",
   },
 ];
 
 const skills = {
-  Languages: ["C++", "Python", "JavaScript", "TypeScript", "SQL", "HTML", "CSS"],
-  "Core CS": [
+  Languages: ["Python", "SQL", "TypeScript", "JavaScript", "C++", "HTML", "CSS"],
+  "AI & Retrieval": [
+    "RAG",
+    "Ollama",
+    "Hybrid Retrieval",
+    "BM25",
+    "Neural Reranking",
+    "Claim Verification",
+  ],
+  "Data & Machine Learning": [
+    "pandas",
+    "NumPy",
+    "scikit-learn",
+    "PyTorch",
+    "TensorFlow",
+    "Matplotlib",
+    "Seaborn",
+  ],
+  "Web & APIs": ["React", "Node.js", "Express.js", "FastAPI", "Tailwind CSS", "REST APIs"],
+  "Databases & Tools": ["PostgreSQL", "MySQL", "MongoDB", "Supabase", "Git", "GitHub", "Linux"],
+  "Computer Vision & Foundations": [
+    "OpenCV",
+    "Image Processing",
+    "CNNs",
     "Data Structures & Algorithms",
     "OOP",
-    "Operating Systems",
     "DBMS",
-    "Computer Networks",
   ],
-  "Frameworks & Web": ["React", "Node.js", "Express.js", "FastAPI", "Tailwind CSS"],
-  Databases: ["PostgreSQL", "MongoDB", "Supabase"],
-  "AI / ML": [
-    "PyTorch",
-    "OpenCV",
-    "Deep Learning",
-    "Computer Vision",
-    "Federated Learning",
-    "Split Learning",
-    "Local Differential Privacy",
-    "RAG",
-    "Distributed LLM",
-    "TensorFlow",
-    "Keras",
-    "scikit-learn",
-    "Librosa",
-  ],
-  Tools: ["Git", "GitHub", "Linux", "VS Code"],
 };
 
 const filters = ["All", "AI", "Full-Stack", "Vision", "Security"] as const;
@@ -181,7 +221,7 @@ const timeline: TimelineEntry[] = [
     year: "2026",
     kind: "project",
     title: "VOICEVIZ",
-    subtitle: "Voice-to-SQL workspace with visualizations — Jan – May 2026",
+    subtitle: "Voice-to-SQL workspace with visualizations — Feb – Mar 2026",
   },
   {
     year: "2026",
@@ -193,28 +233,25 @@ const timeline: TimelineEntry[] = [
     year: "2026",
     kind: "project",
     title: "Steg-Drop",
-    subtitle: "In-memory AES-256-GCM steganography — Jan – May 2026",
+    subtitle: "In-memory AES-256-GCM steganography — Mar – Apr 2026",
   },
   {
     year: "2026",
     kind: "experience",
     title: "Scaler — AI Training (Freelance)",
-    subtitle: "Structured training data for model alignment",
+    subtitle: "AI evaluation, annotation, and dataset generation · Nov 2025 – Jan 2026",
   },
   {
     year: "2026",
     kind: "experience",
-    title: "Sprit Lab — Founding Member",
-    subtitle: "Founding member contributing to product & ML prototyping",
-    logo: spritLogoTimeline,
+    title: "SPRiT Lab, IIT Jodhpur — Research Intern",
+    subtitle: "AI engineering, hybrid retrieval, and evidence verification · May – Aug 2026",
   },
   {
     year: "2026",
-    kind: "experience",
-    title: "IIT Jodhpur — Research Intern",
-    subtitle:
-      "Privacy-preserving techniques in RAG under Dr. Susil Kumar Mohanty · May 2026 – ongoing",
-    // logo: iitjLogo,
+    kind: "project",
+    title: "Migration Risk Analytics",
+    subtitle: "IBM SkillsBuild capstone · Aug – Sep 2026",
   },
   {
     year: "2027",
@@ -323,7 +360,10 @@ export default function Portfolio() {
         {/* Nav */}
         <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <a href="#top" className="flex items-baseline gap-2 text-sm font-semibold tracking-tight">
+            <a
+              href="#top"
+              className="flex items-baseline gap-2 text-sm font-semibold tracking-tight"
+            >
               LS
               <span className="hidden font-normal text-xs text-muted-foreground sm:inline">
                 · Updated {__BUILD_DATE__}
@@ -341,8 +381,8 @@ export default function Portfolio() {
                 </a>
               </li>
               <li>
-                <a href="#timeline" className="hover:text-foreground transition-colors">
-                  Timeline
+                <a href="#experience" className="hover:text-foreground transition-colors">
+                  Experience
                 </a>
               </li>
               <li>
@@ -363,8 +403,8 @@ export default function Portfolio() {
             </ul>
             <div className="flex items-center gap-2">
               <a
-                href={"/resume.pdf"}
-                download
+                href="/resume.pdf"
+                download="Laxminarayan-Sahu-Resume.pdf"
                 className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-medium hover:border-primary/60 transition-colors"
               >
                 <Download className="h-3.5 w-3.5" /> Resume
@@ -402,7 +442,7 @@ export default function Portfolio() {
             <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
               B.Tech Information Technology student at{" "}
               <span className="text-foreground">NIT Karnataka</span>, building thoughtful software
-              across AI, full-stack, and computer vision.
+              across retrieval-augmented AI, data analytics, and full-stack development.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
@@ -414,7 +454,7 @@ export default function Portfolio() {
               </a>
               <a
                 href="/resume.pdf"
-                download
+                download="Laxminarayan-Sahu-Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
               >
                 <Download className="h-4 w-4" /> Download résumé
@@ -431,9 +471,9 @@ export default function Portfolio() {
 
             <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[
-                { k: "5", v: "Projects shipped" },
+                { k: String(projects.length), v: "Selected projects" },
                 { k: "5427", v: "JEE Main AIR" },
-                { k: "15+", v: "Technologies" },
+                { k: "3", v: "Focus: AI, web & vision" },
                 { k: "2027", v: "Graduating" },
               ].map((s) => (
                 <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
@@ -529,6 +569,55 @@ export default function Portfolio() {
           </div>
         </section>
 
+        <section id="experience" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+            <div className="reveal mb-10">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">
+                Experience & Training
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                Research meets implementation.
+              </h2>
+            </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              <InfoCard
+                icon={<Code2 className="h-5 w-5 text-primary" />}
+                title="Research internship"
+              >
+                <p className="font-medium">SPRiT Lab, IIT Jodhpur</p>
+                <p className="text-sm text-primary">Summer Research Intern — AI Engineering</p>
+                <p className="text-xs text-muted-foreground">May – Aug 2026</p>
+                <p className="pt-3 text-sm leading-relaxed text-muted-foreground">
+                  Built Omniac RAG with hybrid retrieval, neural reranking, claim verification, and
+                  Ollama generation. Added citation auditing and abstention logic for
+                  evidence-grounded responses.
+                </p>
+              </InfoCard>
+              <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Freelance">
+                <p className="font-medium">Scaler</p>
+                <p className="text-sm text-primary">AI Training</p>
+                <p className="text-xs text-muted-foreground">Nov 2025 – Jan 2026</p>
+                <p className="pt-3 text-sm leading-relaxed text-muted-foreground">
+                  Worked on AI model evaluation, data annotation, and structured dataset generation
+                  to improve model reliability.
+                </p>
+              </InfoCard>
+              <InfoCard
+                icon={<GraduationCap className="h-5 w-5 text-primary" />}
+                title="Certifications & training"
+              >
+                <p className="font-medium">IBM SkillsBuild</p>
+                <p className="text-sm text-primary">Artificial Intelligence & Data Analytics</p>
+                <p className="text-xs text-muted-foreground">2026</p>
+                <p className="pt-3 text-sm leading-relaxed text-muted-foreground">
+                  Training in generative AI, LLMs, agentic AI, and data fundamentals. Applied
+                  analytics through the Migration Risk Analytics capstone.
+                </p>
+              </InfoCard>
+            </div>
+          </div>
+        </section>
+
         {/* Skills */}
         <section id="skills" className="transition-colors duration-500">
           <div className="mx-auto max-w-6xl px-6 py-24 relative">
@@ -569,13 +658,17 @@ export default function Portfolio() {
               <div className="reveal">
                 <p className="text-xs uppercase tracking-[0.2em] text-primary">About</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                  Curious engineer with a bias for shipping.
+                  From data and evidence to useful software.
                 </h2>
                 <p className="mt-6 text-muted-foreground leading-relaxed">
-                  I&apos;m an IT undergrad at NIT Karnataka exploring the intersection of AI,
-                  systems, and beautiful interfaces. I enjoy turning research-flavored ideas into
-                  things you can actually use — from image-processing pipelines to voice-driven SQL
-                  tools.
+                  I&apos;m a B.Tech Information Technology student at NIT Karnataka, graduating in
+                  2027. I build AI applications, data pipelines, and web interfaces that make
+                  complex information easier to explore.
+                </p>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  During my summer research internship at SPRiT Lab, IIT Jodhpur, I worked on
+                  retrieval-augmented generation, evidence verification, and citation auditing. My
+                  projects span migration analytics, voice-to-SQL tools, and computer vision.
                 </p>
               </div>
               <div className="grid gap-4">
@@ -596,28 +689,36 @@ export default function Portfolio() {
                     2023 — among 1.2M+ candidates.
                   </p>
                 </InfoCard>
-                <InfoCard icon={<Sparkles className="h-5 w-5 text-primary" />} title="Experience">
-                  <p className="font-medium">Scaler — AI Training (Freelance)</p>
-                  <p className="text-sm text-muted-foreground">
-                    Nov 2025 – Jan 2026 · AI model evaluation, data annotation, and structured
-                    dataset generation to improve model reliability.
-                  </p>
-                </InfoCard>
-                <InfoCard icon={<Code2 className="h-5 w-5 text-primary" />} title="Research">
-                  <p className="font-medium">SPRiT Lab, IIT Jodhpur — Summer Research Intern</p>
-                  <p className="text-sm text-muted-foreground">
-                    May 2026 – Present · Under Dr. Susil Kumar Mohanty. Privacy-preserving
-                    distributed ML — Federated Learning, Split Learning, Local Differential Privacy,
-                    and communication-efficient distributed LLM training.
-                  </p>
-                </InfoCard>
-                <InfoCard icon={<Trophy className="h-5 w-5 text-primary" />} title="Leadership">
-                  <p className="font-medium">Vice President — Student Body</p>
-                  <p className="text-sm text-muted-foreground">
-                    Oversaw events and student activities.
-                  </p>
-                </InfoCard>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="resume" className="mx-auto max-w-6xl px-6 py-12">
+          <div className="reveal flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">Resume</p>
+              <h2 className="mt-3 text-2xl font-semibold">The experience behind the projects.</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Education, AI engineering experience, selected projects, and certifications.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-border px-5 py-3 text-sm hover:border-primary"
+              >
+                View resume <span className="sr-only">(PDF, opens in a new tab)</span>
+              </a>
+              <a
+                href="/resume.pdf"
+                download="Laxminarayan-Sahu-Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm text-primary-foreground"
+              >
+                <Download className="h-4 w-4" /> Download PDF
+              </a>
             </div>
           </div>
         </section>
@@ -658,7 +759,7 @@ export default function Portfolio() {
                       label="GitHub"
                     />
                     <ContactLink
-                      href="https://linkedin.com/in/LAXMINARAYAN"
+                      href="https://linkedin.com/in/laxminarayan-sahu-49294227b"
                       icon={<Linkedin className="h-4 w-4" />}
                       label="LinkedIn"
                     />
@@ -679,26 +780,6 @@ export default function Portfolio() {
         <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
       </div>
     </main>
-  );
-}
-
-function SectionThemeToggle({
-  theme,
-  onToggle,
-}: {
-  theme: "light" | "dark";
-  onToggle: () => void;
-}) {
-  return (
-    <button
-      onClick={onToggle}
-      aria-label="Toggle section theme"
-      title="Toggle this section's theme"
-      className="absolute right-6 top-6 z-10 inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-card/70 backdrop-blur px-3 text-[11px] font-medium text-muted-foreground hover:text-foreground hover:border-primary/60 transition-colors"
-    >
-      {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-      <span className="hidden sm:inline">Section</span>
-    </button>
   );
 }
 
@@ -740,9 +821,9 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             "radial-gradient(300px circle at var(--gx, 50%) var(--gy, 50%), color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%)",
         }}
       />
-      <div className="relative flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-2">
+      <div className="relative flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-xl font-semibold tracking-tight">{p.name}</h3>
             <span className="rounded-full border border-border bg-background/60 px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
               {p.tag}
@@ -775,75 +856,67 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   return (
     <Dialog open={!!project} onOpenChange={(o) => !o && onClose()}>
-      <DialogPortal>
-        <DialogOverlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <DialogContent className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-0 border border-border bg-card p-0 shadow-lg rounded-2xl overflow-hidden max-h-[90vh] sm:rounded-2xl">
-          {project && (
-            <div className="flex flex-col max-h-[90vh]">
-              {/* Hero screenshot placeholder */}
-              <div className={`relative h-56 w-full bg-gradient-to-br ${project.accent}`}>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.25),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.25),transparent_40%)]" />
-                <div className="absolute inset-0 flex items-end justify-between p-6">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/80">
-                      {project.tag}
-                    </div>
-                    <div className="mt-1 text-3xl font-semibold tracking-tight text-white drop-shadow-sm">
-                      {project.name}
-                    </div>
-                    <div className="text-xs text-white/80">{project.period}</div>
+      <DialogContent className="fixed left-[50%] top-[50%] z-50 grid w-[calc(100%-2rem)] max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-0 border border-border bg-card p-0 shadow-lg rounded-2xl overflow-hidden max-h-[90vh] sm:rounded-2xl">
+        {project && (
+          <div className="flex flex-col max-h-[90vh]">
+            {/* Hero screenshot placeholder */}
+            <div className={`relative h-56 shrink-0 w-full bg-gradient-to-br ${project.accent}`}>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.25),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.25),transparent_40%)]" />
+              <div className="absolute inset-0 flex items-end justify-between p-6">
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-white/80">
+                    {project.tag}
                   </div>
-                  <button
-                    onClick={onClose}
-                    aria-label="Close"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur hover:bg-black/50"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                  <DialogTitle className="mt-1 text-3xl font-semibold tracking-tight text-white drop-shadow-sm">
+                    {project.name}
+                  </DialogTitle>
+                  <div className="text-xs text-white/80">{project.period}</div>
                 </div>
-              </div>
-
-              <div className="overflow-y-auto p-7">
-                <p className="text-sm leading-relaxed text-muted-foreground">{project.details}</p>
-
-                <div className="mt-6">
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary">Tech Stack</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {project.stack.map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {project.links && project.links.length > 0 && (
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    {project.links.map((l) => (
-                      <a
-                        key={l.href}
-                        href={l.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-primary-foreground"
-                        style={{
-                          background: "var(--gradient-primary)",
-                          boxShadow: "var(--shadow-glow)",
-                        }}
-                      >
-                        <ExternalLink className="h-4 w-4" /> {l.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
-          )}
-        </DialogContent>
-      </DialogPortal>
+
+            <div className="overflow-y-auto p-7">
+              <DialogDescription className="text-sm leading-relaxed text-muted-foreground">
+                {project.details}
+              </DialogDescription>
+
+              <div className="mt-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-primary">Tech Stack</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {project.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-border bg-background/60 px-3 py-1 text-xs text-muted-foreground"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {project.links && project.links.length > 0 && (
+                <div className="mt-7 flex flex-wrap gap-3">
+                  {project.links.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-primary-foreground"
+                      style={{
+                        background: "var(--gradient-primary)",
+                        boxShadow: "var(--shadow-glow)",
+                      }}
+                    >
+                      <ExternalLink className="h-4 w-4" /> {l.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </DialogContent>
     </Dialog>
   );
 }
@@ -1078,14 +1151,15 @@ function ContactForm() {
     }
     setErrors({});
     setStatus("submitting");
-    const { error } = await supabase.from("contact_messages").insert(parsed.data);
-    if (error) {
+    try {
+      const { error } = await supabase.from("contact_messages").insert(parsed.data);
+      if (error) throw error;
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
       setStatus("error");
-      setServerError("Couldn't send your message. Please try again.");
-      return;
+      setServerError("Couldn't save your message. Please try again or email me directly.");
     }
-    setStatus("success");
-    setForm({ name: "", email: "", message: "" });
   };
 
   return (
@@ -1136,7 +1210,7 @@ function ContactForm() {
       {status === "success" && (
         <div className="mt-4 flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-sm text-foreground">
           <CheckCircle2 className="h-4 w-4 text-primary" />
-          Thanks! Your message has been sent.
+          Thanks! Your message has been received.
         </div>
       )}
       {serverError && (
@@ -1205,3 +1279,4 @@ function ContactLink({
     </a>
   );
 }
+
