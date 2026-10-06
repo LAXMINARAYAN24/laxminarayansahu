@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { User, X } from "lucide-react";
 const LOCAL_PROFILE = "/profile.jpg";
 export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline" } = {}) {
-  const [url, setUrl] = useState<string | null>(LOCAL_PROFILE);
+  const url = LOCAL_PROFILE;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,6 @@ export function ProfileAvatar({ size = "default" }: { size?: "default" | "inline
   }, [open]);
 
   const sizeCls = size === "inline" ? "h-28 w-28 md:h-36 md:w-36" : "h-48 w-48 md:h-56 md:w-56";
-  const iconBtnCls = size === "inline" ? "h-7 w-7" : "h-10 w-10";
 
   return (
     <div className="relative inline-block">

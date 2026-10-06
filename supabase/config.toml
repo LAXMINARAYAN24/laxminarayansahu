@@ -1,1 +1,5 @@
-project_id = "rmoqcjdlvwwauftszucw"
+project_id = "chfwwlkdkzwvqtajsmby"
+
+[functions.notify-contact]
+# The handler validates x-webhook-secret for server-to-server requests.
+verify_jwt = false

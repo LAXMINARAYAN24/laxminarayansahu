@@ -21,15 +21,6 @@ export function NeuralBackground() {
     let mouseX = -9999;
     let mouseY = -9999;
 
-
-    const cssVar = (name: string) => {
-      const v = getComputedStyle(document.documentElement)
-        .getPropertyValue(name)
-        .trim();
-      return v || "oklch(0.6 0.16 200)";
-    };
-
-
     // Keep node positions in normalized [0,1] space so they stay centered
     // and proportionally placed across any viewport size.
     type Node = { nx: number; ny: number; x: number; y: number; vx: number; vy: number; r: number };

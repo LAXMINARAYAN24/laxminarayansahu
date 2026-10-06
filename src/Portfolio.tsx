@@ -10,7 +10,7 @@ import {
   Code2,
   Trophy,
   GraduationCap,
-   Sun,
+  Sun,
   Moon,
   Download,
   Loader2,
@@ -1279,4 +1279,3 @@ function ContactLink({
     </a>
   );
 }
-
