@@ -453,11 +453,12 @@ export default function Portfolio() {
                 View selected work <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
-                href="/resume.pdf"
-                download="Laxminarayan-Sahu-Resume.pdf"
+                href="https://linkedin.com/in/laxminarayan-sahu-49294227b"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
               >
-                <Download className="h-4 w-4" /> Download résumé
+                <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
               <a
                 href="https://github.com/LAXMINARAYAN24"
