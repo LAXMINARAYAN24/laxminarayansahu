@@ -21,6 +21,15 @@ export function NeuralBackground() {
     let mouseX = -9999;
     let mouseY = -9999;
 
+
+    const cssVar = (name: string) => {
+      const v = getComputedStyle(document.documentElement)
+        .getPropertyValue(name)
+        .trim();
+      return v || "oklch(0.6 0.16 200)";
+    };
+
+
     // Keep node positions in normalized [0,1] space so they stay centered
     // and proportionally placed across any viewport size.
     type Node = { nx: number; ny: number; x: number; y: number; vx: number; vy: number; r: number };
@@ -105,6 +114,9 @@ export function NeuralBackground() {
     const edgeDir = new Map<number, 1 | -1>();
     const EDGE_SPEED = 0.012; // same for fade-in and fade-out
     const keyOf = (i: number, j: number) => i * 4096 + j;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let running = !document.hidden;
 
     const draw = () => {
       // Bright neural palette — vivid blue + orange that read well on both themes.
@@ -261,8 +273,16 @@ export function NeuralBackground() {
         return true;
       });
 
-      raf = requestAnimationFrame(draw);
+      if (running && !reduceMotion) raf = requestAnimationFrame(draw);
     };
+
+    // Pause the loop while the tab is hidden (saves battery); draw once if reduced motion.
+    const onVisibility = () => {
+      running = !document.hidden;
+      cancelAnimationFrame(raf);
+      if (running && !reduceMotion) raf = requestAnimationFrame(draw);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     resize();
     draw();
@@ -277,6 +297,7 @@ export function NeuralBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);

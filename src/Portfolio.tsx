@@ -10,13 +10,16 @@ import {
   Code2,
   Trophy,
   GraduationCap,
-  Sun,
+   Sun,
   Moon,
   Download,
   Loader2,
   CheckCircle2,
   Calendar,
   GripVertical,
+  Menu,
+  X,
+  ArrowUp,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -262,6 +265,109 @@ const timeline: TimelineEntry[] = [
   },
 ];
 
+const navLinks = [
+  { id: "work", label: "Work" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "timeline", label: "Journey" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
+];
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** Which section is currently in the middle band of the viewport (for the nav underline). */
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState("");
+  const key = ids.join("|");
+  useEffect(() => {
+    const els = key
+      .split("|")
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-35% 0px -60% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [key]);
+  return active;
+}
+
+/** Counts up to `to` the first time it scrolls into view. Static under reduced motion. */
+function CountUp({ to, duration = 1400 }: { to: number; duration?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (prefersReducedMotion()) {
+      setV(to);
+      return;
+    }
+    let raf = 0;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const tick = (t: number) => {
+          const p = Math.min(1, (t - t0) / duration);
+          setV(Math.round(to * (1 - Math.pow(1 - p, 4))));
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [to, duration]);
+  return (
+    <span ref={ref} className="tabular-nums">
+      {v}
+    </span>
+  );
+}
+
+const marqueeTech = [
+  "Python", "PyTorch", "RAG", "Ollama", "BM25", "React", "TypeScript", "FastAPI",
+  "Supabase", "PostgreSQL", "OpenCV", "scikit-learn", "Node.js", "TensorFlow",
+];
+
+function TechMarquee() {
+  const track = (hidden: boolean) => (
+    <ul className="marquee-track" aria-hidden={hidden || undefined}>
+      {marqueeTech.map((t) => (
+        <li
+          key={t}
+          className="rounded-full border border-border bg-card/60 px-4 py-1.5 font-mono text-xs text-muted-foreground"
+        >
+          {t}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className="hero-in mt-12" style={{ "--i": 7 } as React.CSSProperties}>
+      <p className="eyebrow mb-4">Tools I reach for</p>
+      <div className="marquee">
+        {track(false)}
+        {track(true)}
+      </div>
+    </div>
+  );
+}
+
 function useGlobalTheme() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   useEffect(() => {
@@ -320,6 +426,16 @@ export default function Portfolio() {
   const [filter, setFilter] = useState<Filter>("All");
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const mainRef = useRef<HTMLElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const active = useActiveSection(["top", ...navLinks.map((l) => l.id)]);
+  const scrolled = progress > 0.3;
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   useReveal([filter]);
 
@@ -341,6 +457,12 @@ export default function Portfolio() {
       onMouseMove={onMouseMove}
       className="relative min-h-screen bg-background text-foreground antialiased"
     >
+      <a
+        href="#work"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
       <NeuralBackground />
       {/* Global cursor glow — spans all sections so no partition line appears */}
       <div
@@ -358,7 +480,11 @@ export default function Portfolio() {
         />
 
         {/* Nav */}
-        <header className="sticky top-0 z-20 backdrop-blur-xl bg-background/70">
+        <header
+          className={`sticky top-0 z-20 border-b backdrop-blur-xl bg-background/70 transition-colors duration-300 ${
+            scrolled || menuOpen ? "border-border/60" : "border-transparent"
+          }`}
+        >
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <a
               href="#top"
@@ -370,36 +496,20 @@ export default function Portfolio() {
               </span>
             </a>
             <ul className="hidden gap-8 text-sm text-muted-foreground md:flex">
-              <li>
-                <a href="#work" className="hover:text-foreground transition-colors">
-                  Work
-                </a>
-              </li>
-              <li>
-                <a href="#affiliations" className="hover:text-foreground transition-colors">
-                  Affiliations
-                </a>
-              </li>
-              <li>
-                <a href="#experience" className="hover:text-foreground transition-colors">
-                  Experience
-                </a>
-              </li>
-              <li>
-                <a href="#skills" className="hover:text-foreground transition-colors">
-                  Skills
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="hover:text-foreground transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-foreground transition-colors">
-                  Contact
-                </a>
-              </li>
+              {navLinks.map((l) => (
+                <li key={l.id}>
+                  <a
+                    href={`#${l.id}`}
+                    aria-current={active === l.id ? "true" : undefined}
+                    className={`nav-link transition-colors ${
+                      active === l.id ? "text-foreground" : "hover:text-foreground"
+                    }`}
+                  >
+                    {l.label}
+                    <span className="nav-underline" />
+                  </a>
+                </li>
+              ))}
             </ul>
             <div className="flex items-center gap-2">
               <a
@@ -416,20 +526,81 @@ export default function Portfolio() {
               >
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
+              <button
+                onClick={() => setMenuOpen((o) => !o)}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/60 transition-colors hover:border-primary/60 md:hidden"
+              >
+                {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </button>
             </div>
           </nav>
+          {menuOpen && (
+            <div
+              id="mobile-menu"
+              className="animate-in fade-in slide-in-from-top-2 duration-200 md:hidden"
+            >
+              <ul className="mx-auto max-w-6xl space-y-1 px-6 pb-5 pt-1">
+                {navLinks.map((l) => (
+                  <li key={l.id}>
+                    <a
+                      href={`#${l.id}`}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={active === l.id ? "true" : undefined}
+                      className={`flex items-center justify-between rounded-xl px-3 py-3 text-base transition-colors ${
+                        active === l.id
+                          ? "bg-card text-foreground"
+                          : "text-muted-foreground hover:bg-card/60 hover:text-foreground"
+                      }`}
+                    >
+                      {l.label}
+                      <ArrowUpRight className="h-4 w-4 opacity-60" />
+                    </a>
+                  </li>
+                ))}
+                <li className="flex gap-2 pt-3">
+                  <a
+                    href="/resume.pdf"
+                    download="Laxminarayan-Sahu-Resume.pdf"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium text-primary-foreground"
+                    style={{ background: "var(--gradient-primary)" }}
+                  >
+                    <Download className="h-4 w-4" /> Résumé
+                  </a>
+                  <a
+                    href="https://github.com/LAXMINARAYAN24"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2.5 text-sm font-medium"
+                  >
+                    <Github className="h-4 w-4" /> GitHub
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
         </header>
 
         {/* Hero */}
         <section id="top" className="relative overflow-hidden transition-colors duration-500">
           <div className="mx-auto max-w-6xl px-6 pt-24 pb-32 md:pt-32 relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
+            <div
+              className="hero-in inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground"
+              style={{ "--i": 0 } as React.CSSProperties}
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               Available for internships & collaborations
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-5 md:gap-7">
-              <ProfileAvatar size="inline" />
-              <h1 className="text-5xl font-semibold tracking-tight md:text-7xl lg:text-8xl">
+              <div className="hero-in" style={{ "--i": 1 } as React.CSSProperties}>
+                <ProfileAvatar size="inline" />
+              </div>
+              <h1
+                className="hero-in text-[clamp(2.3rem,11vw,3.5rem)] font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
+                style={{ "--i": 2 } as React.CSSProperties}
+              >
                 Laxminarayan{" "}
                 <span
                   className="bg-clip-text text-transparent"
@@ -439,12 +610,18 @@ export default function Portfolio() {
                 </span>
               </h1>
             </div>
-            <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
+            <p
+              className="hero-in mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl"
+              style={{ "--i": 3 } as React.CSSProperties}
+            >
               B.Tech Information Technology student at{" "}
               <span className="text-foreground">NIT Karnataka</span>, building thoughtful software
               across retrieval-augmented AI, data analytics, and full-stack development.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div
+              className="hero-in mt-10 flex flex-wrap items-center gap-3"
+              style={{ "--i": 4 } as React.CSSProperties}
+            >
               <a
                 href="#work"
                 className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]"
@@ -453,12 +630,11 @@ export default function Portfolio() {
                 View selected work <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
-                href="https://linkedin.com/in/laxminarayan-sahu-49294227b"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/resume.pdf"
+                download="Laxminarayan-Sahu-Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-5 py-2.5 text-sm font-medium hover:border-primary/50 transition-colors"
               >
-                <Linkedin className="h-4 w-4" /> LinkedIn
+                <Download className="h-4 w-4" /> Download résumé
               </a>
               <a
                 href="https://github.com/LAXMINARAYAN24"
@@ -470,12 +646,12 @@ export default function Portfolio() {
               </a>
             </div>
 
-            <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="stagger mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[
-                { k: String(projects.length), v: "Selected projects" },
-                { k: "5427", v: "JEE Main AIR" },
-                { k: "3", v: "Focus: AI, web & vision" },
-                { k: "2027", v: "Graduating" },
+                { k: projects.length, v: "Selected projects", count: true },
+                { k: 5427, v: "JEE Main AIR", count: true },
+                { k: 3, v: "Focus: AI, web & vision", count: true },
+                { k: 2027, v: "Graduating", count: false },
               ].map((s) => (
                 <div key={s.v} className="reveal rounded-2xl border border-border bg-card/60 p-5">
                   <div
@@ -487,21 +663,22 @@ export default function Portfolio() {
                       color: "transparent",
                     }}
                   >
-                    {s.k}
+                    {s.count ? <CountUp to={s.k} /> : s.k}
                   </div>
                   <div className="mt-1 text-xs text-muted-foreground">{s.v}</div>
                 </div>
               ))}
             </div>
+            <TechMarquee />
           </div>
         </section>
 
         {/* Work */}
         <section id="work" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
             <div className="reveal mb-10 flex items-end justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-primary">Selected Work</p>
+                <p className="eyebrow">Selected Work</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
                   Things I&apos;ve been building.
                 </h2>
@@ -533,7 +710,7 @@ export default function Portfolio() {
               })}
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="stagger grid gap-5 md:grid-cols-2">
               {filtered.map((p) => (
                 <ProjectCard key={p.name} p={p} onOpen={() => setOpenProject(p)} />
               ))}
@@ -541,46 +718,18 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* Affiliations */}
-        <section id="affiliations" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
-            <div className="reveal mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">Affiliations</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Where I&apos;ve studied & built.
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-                The institutions and labs that have shaped my journey so far.
-              </p>
-            </div>
-            <Affiliations />
-          </div>
-        </section>
-
-        {/* Timeline */}
-        <section id="timeline" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
-            <div className="reveal mb-12">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">Journey</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                A timeline of milestones.
-              </h2>
-            </div>
-            <Timeline entries={timeline} />
-          </div>
-        </section>
-
+        {/* Experience */}
         <section id="experience" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
             <div className="reveal mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">
+              <p className="eyebrow">
                 Experience & Training
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
                 Research meets implementation.
               </h2>
             </div>
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="stagger grid gap-5 md:grid-cols-3">
               <InfoCard
                 icon={<Code2 className="h-5 w-5 text-primary" />}
                 title="Research internship"
@@ -621,14 +770,14 @@ export default function Portfolio() {
 
         {/* Skills */}
         <section id="skills" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
             <div className="reveal">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">Toolkit</p>
+              <p className="eyebrow">Toolkit</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
                 Technologies I work with.
               </h2>
             </div>
-            <div className="mt-12 grid gap-5 md:grid-cols-3">
+            <div className="stagger mt-12 grid gap-5 md:grid-cols-3">
               {Object.entries(skills).map(([group, items]) => (
                 <div
                   key={group}
@@ -652,12 +801,41 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Timeline */}
+        <section id="timeline" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
+            <div className="reveal mb-12">
+              <p className="eyebrow">Journey</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                A timeline of milestones.
+              </h2>
+            </div>
+            <Timeline entries={timeline} />
+          </div>
+        </section>
+
+        {/* Affiliations */}
+        <section id="affiliations" className="transition-colors duration-500">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
+            <div className="reveal mb-10">
+              <p className="eyebrow">Affiliations</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                Where I&apos;ve studied & built.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+                The institutions and labs that have shaped my journey so far.
+              </p>
+            </div>
+            <Affiliations />
+          </div>
+        </section>
+
         {/* About */}
         <section id="about" className="transition-colors duration-500">
-          <div className="mx-auto max-w-6xl px-6 py-24 relative">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24 relative">
             <div className="grid gap-12 md:grid-cols-2">
               <div className="reveal">
-                <p className="text-xs uppercase tracking-[0.2em] text-primary">About</p>
+                <p className="eyebrow">About</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
                   From data and evidence to useful software.
                 </h2>
@@ -698,7 +876,7 @@ export default function Portfolio() {
         <section id="resume" className="mx-auto max-w-6xl px-6 py-12">
           <div className="reveal flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">Resume</p>
+              <p className="eyebrow">Resume</p>
               <h2 className="mt-3 text-2xl font-semibold">The experience behind the projects.</h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 Education, AI engineering experience, selected projects, and certifications.
@@ -737,7 +915,7 @@ export default function Portfolio() {
               />
               <div className="relative grid gap-10 md:grid-cols-2">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
+                  <p className="eyebrow">Contact</p>
                   <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
                     Let&apos;s build
                     <br />
@@ -778,6 +956,17 @@ export default function Portfolio() {
           </div>
         </footer>
 
+        <button
+          type="button"
+          aria-label="Back to top"
+          data-show={progress > 6}
+          onClick={() =>
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" })
+          }
+          className="to-top fixed bottom-6 right-6 z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card/80 text-foreground shadow-lg backdrop-blur transition-colors hover:border-primary/60 hover:text-primary"
+        >
+          <ArrowUp className="h-4 w-4" />
+        </button>
         <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
       </div>
     </main>
@@ -822,6 +1011,10 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             "radial-gradient(300px circle at var(--gx, 50%) var(--gy, 50%), color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%)",
         }}
       />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-0 transition-opacity group-hover:opacity-100"
+        style={{ background: "var(--gradient-primary)" }}
+      />
       <div className="relative flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
@@ -849,6 +1042,10 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             +{p.stack.length - 4} more
           </span>
         )}
+      </div>
+      <div className="relative mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary">
+        View details
+        <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
       </div>
     </button>
   );
@@ -882,7 +1079,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
               </DialogDescription>
 
               <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-primary">Tech Stack</p>
+                <p className="eyebrow">Tech Stack</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {project.stack.map((s) => (
                     <span
@@ -968,6 +1165,54 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
   const visible = selected === "All" ? ordered : ordered.filter((e) => e.year === selected);
   const canReorder = selected === "All";
 
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // The line fills as the section scrolls through the viewport (--tl: 0 to 1).
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    if (prefersReducedMotion()) {
+      el.style.setProperty("--tl", "1");
+      return;
+    }
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const p = (window.innerHeight * 0.65 - r.top) / r.height;
+      el.style.setProperty("--tl", String(Math.max(0, Math.min(1, p))));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Entries re-mount when the year filter changes, so observe them again.
+  useEffect(() => {
+    const root = wrapRef.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.12 },
+    );
+    root.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [selected, ordered]);
+
   const [dragId, setDragId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
 
@@ -1026,8 +1271,12 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
         )}
       </div>
 
-      <div className="relative">
+      <div ref={wrapRef} className="relative">
         <div className="timeline-line absolute left-4 top-0 bottom-0 w-px md:left-1/2" />
+        <div
+          aria-hidden
+          className="timeline-fill absolute bottom-0 left-4 top-0 -ml-px w-[3px] rounded-full md:left-1/2"
+        />
         <ul className="space-y-8">
           {visible.map((e, idx) => {
             const left = idx % 2 === 0;
@@ -1036,7 +1285,9 @@ function Timeline({ entries }: { entries: TimelineEntry[] }) {
             return (
               <li
                 key={id}
-                className={`relative transition-opacity ${dragId === id ? "opacity-40" : ""}`}
+                className={`reveal ${left ? "reveal-side-l" : "reveal-side-r"} relative transition-opacity ${
+                  dragId === id ? "opacity-40" : ""
+                }`}
                 onDragOver={(ev) => {
                   if (!canReorder || !dragId) return;
                   ev.preventDefault();
@@ -1169,7 +1420,7 @@ function ContactForm() {
       className="rounded-2xl border border-border bg-background/40 p-6 backdrop-blur"
       noValidate
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-primary">Send a message</p>
+      <p className="eyebrow">Send a message</p>
       <div className="mt-4 space-y-3">
         <div>
           <Input
@@ -1209,7 +1460,10 @@ function ContactForm() {
       </div>
 
       {status === "success" && (
-        <div className="mt-4 flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-sm text-foreground">
+        <div
+          role="status"
+          className="mt-4 flex animate-in fade-in zoom-in-95 slide-in-from-bottom-1 items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-sm text-foreground duration-300"
+        >
           <CheckCircle2 className="h-4 w-4 text-primary" />
           Thanks! Your message has been received.
         </div>
@@ -1280,3 +1534,4 @@ function ContactLink({
     </a>
   );
 }
+
